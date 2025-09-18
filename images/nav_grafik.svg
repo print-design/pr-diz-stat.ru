@@ -1,0 +1,14 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="3" width="18" height="16" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M5 4V0" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M15 4V0" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M4 15H6" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M4 11H6" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M4 7H6" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M9 15H11" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M9 11H11" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M9 7H11" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M14 15H16" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M14 11H16" stroke="#EC3A7A" stroke-width="2"/>
+<path d="M14 7H16" stroke="#EC3A7A" stroke-width="2"/>
+</svg>

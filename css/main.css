@@ -1,0 +1,603 @@
+@import '../fonts/SFPro/stylesheet.css';
+
+body {
+    font-family: 'SF Pro Display';
+    padding-left: 60px;
+    font-size: 14px;
+}
+
+a:not(.btn):link, a:not(.btn):visited {
+    color: #EC3A7A;
+    text-decoration: none;
+}
+
+a:not(.btn):active, a:not(.btn):hover {
+    color: red;
+    text-decoration: underline;
+}
+
+.btn-light {
+    color: #EC3A7A;
+    border-radius: 8px;
+    box-shadow:  0px 0px 20px rgb(0 0 0 / 15%);
+}
+
+.btn-link, .btn-link:visited {
+    color: #EC3A7A;
+    text-decoration: none;
+}
+
+.btn-link:active, .btn-link:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+a.gray:link, a.gray:visited {
+    color: #A7A7A7;
+    text-decoration: none;
+}
+
+a.gray:active, a.gray:hover {
+    color: gray;
+    text-decoration: underline;
+}
+
+a.black:link, a.black:visited, .black a:link, .black a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+a.black:active, a.black:hover, .black a:active, .black a:hover {
+    color: lightgray;
+    text-decoration: underline;
+}
+
+.newline {
+    white-space: pre-line;
+}
+
+/* Левая панель */
+#left_bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: white;
+    width: 60px;
+    text-align: center;
+    padding-top: 25px;
+    box-shadow: 0px 0px 20px rgb(0 0 0 / 15%);
+    z-index: 200;
+}
+
+.left_bar_item {
+    display: block;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.left_bar_item.active {
+    border-left: solid 3px #EC3A7A;
+}
+
+.left_bar_item.logo {
+    padding-top: 0;
+    padding-bottom: 40px;
+}
+
+/* Шапка */
+.header {
+    position: fixed;
+    background-color: white;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    left: 0;
+    padding-left: 80px;
+    padding-right: 15px;
+}
+
+.header a:link, .header a:visited {
+    color: #333333;
+    text-decoration: none;
+}
+
+.header a:active, .header a:hover {
+    color: gray;
+    text-decoration: underline;
+}
+
+.header .btn-link, .header .btn-link:visited {
+    color: #333333;
+    text-decoration: none;
+}
+
+.header .btn-link:active, .btn-link:hover {
+    color: gray;
+    text-decoration: underline;
+}
+
+#topmost {
+    height: 55px;
+}
+
+.navbar {
+    margin-left: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.nav-link {
+    padding-left: 0!important;
+    padding-right: 0!important;
+    padding-bottom: 16px!important;
+    margin-right: 30px;
+}
+
+.nav-link.disabled {
+    border-bottom: solid 2px #EC3A7A;
+}
+
+#user-dropdown {
+    left: 0;
+    right: auto;
+}
+
+li#nav-user a.dropdown-toggle::after {
+    display: none;
+}
+
+#nav-role {
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: smaller;
+}
+
+li.no-dropdown-arrow-after a.dropdown-toggle::after {
+    display: none;
+}
+
+.btn {
+    height: 40px;
+    line-height: 26px;
+}
+
+.btn.disabled, .btn:disabled {
+    opacity: .25;
+}
+
+.btn:not(.btn-link) {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-dark {
+    background-color: #EC3A7A;
+    border-color: #EC3A7A;
+    border-radius: 8px;
+}
+
+.btn-dark:hover, .btn-dark:active {
+    color: #EC3A7A;
+    background-color: white;
+    border-color: #EC3A7A;
+}
+
+.btn-outline-dark {
+    color: #EC3A7A;
+    background-color: white;
+    border-color: #EC3A7A;
+    border-radius: 8px;
+}
+
+.btn-outline-dark:hover, .btn-outline-dark:active {
+    background-color: #EC3A7A;
+    border-color: #EC3A7A;
+}
+
+/*Заголовки*/
+h1 {
+    font-size: 36px;
+    line-height: 44px;
+    font-weight: bold;
+    color: #191919;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 40px;
+    color: #191919;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/*Второе меню*/
+.nav2 {
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: 400;
+    padding-top: 10px;
+}
+
+.nav2 a {
+    padding-bottom: 13px;
+}
+
+.nav2 a:link, .nav2 a:visited {
+    color: #333333;
+    text-decoration: none;
+}
+
+.nav2 a.active:link, .nav2 a.active:visited {
+    color: #333333;
+    text-decoration: none;
+}
+
+.nav2 a:active, .nav2 a:hover {
+    color: #333333;
+    text-decoration: underline;
+}
+
+.nav2 a.active:active, .nav2 a.active:hover {
+    color: #333333;
+    text-decoration: none;
+}
+
+.nav2 a.active {
+    border-bottom: solid 2px #191919;
+}
+
+/*Таблица*/
+table.table {
+    border-bottom: solid 1px #dee2e6;
+}
+
+table.table tr th {
+    color: #6D6C70;
+    font-style: normal;
+    font-weight: 400;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 20px;
+    padding-left: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+table.table tr td {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    vertical-align: middle;
+    height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+table.table.compact tr td {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+table.table tr td img {
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
+}
+
+table.table.film-table {
+    border-bottom: 0;
+}
+
+table.table.film-table tr td {
+    border-top: 0;
+    border-bottom: solid 1px #E0E0E0;
+    padding-left: 12px;
+}
+
+table tr.selected {
+    background-color: rgba(34, 170, 214, 0.2);
+}
+
+table tr.pallet_tr {
+    cursor: pointer;
+}
+
+tr.pallet_tr:hover {
+    border-left: solid 1px blue!important;
+    border-right: solid 1px blue!important;
+}
+
+tr.pallet_tr:hover > td {
+    border-bottom: solid 1px blue;
+    position: relative;
+}
+
+tr.pallet_tr:hover > td:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: blue;
+}
+
+/* Печать бирки */
+table.print tr td, table.print tr th {
+    font-size: 32px;
+    line-height: 34px;
+}
+
+/*Элементы страниц*/
+.backlink {
+    background-image: url(../images/icons/backlink.svg);
+    background-position-x: 18px;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    box-shadow: 0px 2px 16px 0px rgb(0 0 0 / 15%);
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: .5rem;
+    margin-top: .25rem;
+    padding-left: 48px;
+}
+
+.backlink:hover {
+    background-image: url(../images/icons/backlink_hover.svg);
+}
+
+.backlink .fas {
+    font-size: 18px;
+    vertical-align: top;
+    margin-right: 5px;
+}
+
+.topbutton {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/*Формы*/
+label {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+}
+
+input.form-control {
+    border: solid 1px #A1A4B1;
+}
+
+select.form-control {
+    border: solid 1px #A1A4B1;
+}
+
+/* Выпадающее меню списка паллетов и рулонов */
+.film_menu {
+    position: absolute;
+    top: 80%;
+    right: 0;
+    border: solid 1px #A1A4B1;
+    padding-left: 13px;
+    padding-right: 13px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: white;
+    z-index: 2;
+    width: 170px;
+    display: none;
+    border-radius: 15px;
+}
+
+.film_menu .command {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/* Фильтр, выплывающий сбоку */
+.modal .modal-dialog-aside{ 
+	width: 521px; max-width:80%; height: 100%; margin:0;transform: translate(0); transition: transform .2s;
+}
+.modal .modal-dialog-aside .modal-content{  height: inherit; border:0; border-radius: 0;}
+.modal .modal-dialog-aside .modal-content .modal-body{ overflow-y: auto }
+.modal.fixed-left .modal-dialog-aside{ margin-left:auto;  transform: translateX(100%); }
+.modal.fixed-right .modal-dialog-aside{ margin-right:auto; transform: translateX(-100%); }
+.modal.show .modal-dialog-aside{ transform: translateX(0);  }
+
+.modal.fade {
+        padding-right: 0!important;
+        overflow: hidden;
+}
+
+.modal-open {
+    overflow: auto; 
+}
+
+/* Таблицы */
+.table {
+    transform-style: preserve-3d;
+}
+
+.table th, .table td {
+    padding: 5px;
+}
+
+table.in-cell {
+    margin: 0;
+}
+
+table.in-cell tr td {
+    border: 0;
+    padding: 0;
+    vertical-align: middle;
+    padding: 0;
+}
+
+/* Элементы управления - График */
+textarea#editable {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+/* Всплывающая подсказка jquery-ui */
+.ui-tooltip {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 0;
+    opacity: 1;
+}
+.ui-tooltip-content {
+    position: relative;
+    padding: 1em;
+}
+.ui-tooltip-content::after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+}
+.right .ui-tooltip-content::after {
+    top: 18px;
+    left: -10px;
+    border-color: transparent #666;
+    border-width: 10px 10px 10px 0;
+}
+.left .ui-tooltip-content::after {
+    top: 18px;
+    right: -10px;
+    border-color: transparent #666;
+    border-width: 10px 0 10px 10px;
+}
+.top .ui-tooltip-content::after {
+    bottom: -10px;
+    left: 72px;
+    border-color: #666 transparent;
+    border-width: 10px 10px 0;    
+}
+.bottom .ui-tooltip-content::after {
+    top: -10px;
+    left: 72px;
+    border-color: #666 transparent;
+    border-width: 0 10px 10px;
+}
+
+/* Заказы */
+#calculation {
+    position: absolute;
+    bottom: auto;
+    right: 10px;
+    margin-top: 60px;
+}
+
+#calculation, #new_customer {
+    border-radius: 15px;
+    box-shadow: 0px 0px 40px rgb(0 0 0 / 15%);
+    padding: 30px;
+}
+
+/* Отображение подсказки валидации (invalid-feedback) для сложных полей форм (input-group) */
+.input-group:has( > .is-invalid) + .invalid-feedback {
+    display: block;
+}
+
+/* СПИСОК С ПОИСКОМ */
+/* 1. Высота поля поиска */
+.select2-selection {
+    height: 40px!important;
+}
+
+/* Положение сообщения о невалидности */
+.select2-hidden-accessible {
+    top: 60px;
+    left: 120px;
+}
+
+.select2-selection__choice__remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #EC3A7A;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: white !important;
+    border: solid 1px lightgray;
+    border-radius: 5px;
+}
+
+/* Правая панель расчётов */
+.param-title {
+    font-size: large;
+}
+
+.param-name {
+    font-weight: bold;
+    color: #3794cc;
+}
+
+.param-value {
+    font-size: 18px;
+}
+
+.algorithm {
+    color: #3945af;
+}
+
+#calculation .value {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Переключатель "активен - не активен" */
+.switch input[type="checkbox"] {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    -webkit-appearance: none;
+    outline: none;
+    background: #c6c6c6;
+    border-radius: 15px;
+    transition: .5s;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+}
+
+.switch input:checked[type="checkbox"] {
+    background: #40e551;
+}
+
+.switch input[type="checkbox"]:before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    top: 0;
+    left: 0;
+    background: #fff;
+    transition: .5s;
+    transform: scale(0.9);
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+}
+
+.switch input:checked[type="checkbox"]:before {
+    left: 30px;
+}
+
+/* Распознавание штрих-кода */
+.detected {
+    border: solid 4px yellow;
+}
