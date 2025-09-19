@@ -15,7 +15,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
     </head>
     <body>
         <?php
-        include '../include/header_sklad.php';
+        include '../include/header.php';
         ?>
         <div class="container-fluid">
             <?php

@@ -202,6 +202,14 @@ const PRICE_ECO_OTHER_MATERIAL = 2;
 const STREAM = "stream";
 const PRINTING = "printing";
 
+// Типы брака
+const DEFECT_TYPE_DELAMINATION = "деламинация";
+const DEFECT_TYPE_PRILADKA = "попадание приладки в отгруженную продукцию";
+const DEFECT_TYPE_WRONG_CMYK = "неверный цвет CMYK";
+const DEFECT_TYPE_WRONG_PANTON = "неверный цвет пантона";
+const DEFECT_TYPE_TEXT_LOSS = "исчезновение текста";
+const DEFECT_TYPE_WRONG_BARCODE = "неправильный баркод";
+
 // Другое
 const ISINVALID = ' is-invalid';
 ?>
