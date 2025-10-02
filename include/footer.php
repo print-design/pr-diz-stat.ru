@@ -398,6 +398,40 @@ if(file_exists('find.php')) {
     $('input').change(function() {
         submit_clicked = false;
     });
+    
+    // Увеличение и уменьшение картинки
+    function ResizeImage(obj, e) {
+        if(obj.hasClass('img-fluid')) {
+            width1 = obj.width();
+            height1 = obj.height();
+            positionX1 = e.pageX - obj.offset().left;
+            positionY1 = e.pageY - obj.offset().top;
+            
+            obj.removeClass('img-fluid');
+            obj.css('cursor', 'zoom-out');
+            
+            width2 = obj.width();
+            height2 = obj.height();
+            positionX2 = positionX1 * width2 / width1;
+            positionY2 = positionY1 * height2 / height1;
+            obj.parent().scrollLeft(positionX2 - obj.parent().width() / 2);
+            obj.parent().scrollTop(positionY2 - obj.parent().height() / 2);
+        } else {
+            obj.addClass('img-fluid'); 
+            obj.css('cursor', 'zoom-in'); 
+        }
+    }
+    
+    // Заполнение трекинга заказов
+    function StatusTrack(id) {
+        $.ajax({ url: '../calculation/_status_track.php?id=' + id })
+                .done(function(data) {
+                    $('#status_track_body').html(data);
+                })
+                .fail(function() {
+                    alert('Ошибка при получении трекинга заказов');
+                });
+    }
         
     // Отображение полностью блока с фиксированной позицией, не умещающегося полностью в окне
     function AdjustFixedBlock(fixed_block) {
