@@ -41,6 +41,9 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
     }
     
     $percent = filter_input(INPUT_POST, 'percent');
+    $in_print = 0; if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
+    $in_lamination = 0; if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
+    $in_cut = 0; if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
     $comment = filter_input(INPUT_POST, 'comment');
     
     if($form_valid) {
