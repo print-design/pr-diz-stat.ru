@@ -211,6 +211,7 @@ const DEFECT_TYPE_WRONG_CMYK = "неверный цвет CMYK";
 const DEFECT_TYPE_WRONG_PANTON = "неверный цвет пантона";
 const DEFECT_TYPE_TEXT_LOSS = "исчезновение текста";
 const DEFECT_TYPE_WRONG_BARCODE = "неправильный баркод";
+const DEFECT_TYPES = array(DEFECT_TYPE_DELAMINATION, DEFECT_TYPE_PRILADKA, DEFECT_TYPE_WRONG_CMYK, DEFECT_TYPE_WRONG_PANTON, DEFECT_TYPE_TEXT_LOSS, DEFECT_TYPE_WRONG_BARCODE);
 
 // Другое
 const ISINVALID = ' is-invalid';
