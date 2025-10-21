@@ -30,7 +30,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                     <h1>Рекламации</h1>
                 </div>
                 <div class="pt-1">
-                    <a href="../calculations/calculation.php" class="btn btn-dark"><i class="fas fa-plus"></i>&nbsp;Новая рекламация</a>
+                    <a href="../calculation/calculation.php" class="btn btn-dark"><i class="fas fa-plus"></i>&nbsp;Новая рекламация</a>
                 </div>
             </div>
             <table class="table table-hover" id="content_table">

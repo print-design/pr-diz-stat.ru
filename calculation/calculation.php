@@ -232,7 +232,7 @@ $executer = new Executer($sql);
                         <th>ID&nbsp;&nbsp;<?= OrderLink('id') ?></th>
                         <th>Дата расчета&nbsp;&nbsp;<?= OrderLink('date') ?></th>
                         <th>Заказчик&nbsp;&nbsp;<?= OrderLink('customer') ?></th>
-                        <th>Имя заказчика&nbsp;&nbsp;<?= OrderLink('name') ?></th>
+                        <th>Имя заказа&nbsp;&nbsp;<?= OrderLink('name') ?></th>
                         <th class="text-center">Объем&nbsp;&nbsp;<?= OrderLink('quantity') ?></th>
                         <th>Тип работы&nbsp;&nbsp;<?= OrderLink('work_type') ?></th>
                         <th>Менеджер&nbsp;&nbsp;<?= OrderLink('manager') ?></th>
@@ -314,7 +314,7 @@ $executer = new Executer($sql);
                         <td><?= WORK_TYPE_NAMES[$row['work_type_id']] ?></td>
                         <td class="text-nowrap"><?=(mb_strlen($row['first_name']) == 0 ? '' : mb_substr($row['first_name'], 0, 1).'. ').$row['last_name'] ?></td>
                         <td class="text-nowrap" data-toggle="modal" data-target="#status_track" style="cursor: pointer;" onclick="javascript: StatusTrack(<?=$row['id'] ?>);"><?= ShowOrderStatus($row['status_id'], $row['length_cut'], $row['weight_cut'], $row['quantity_sum'], $row['quantity'], $row['unit'], $row['raport'], $row['length'], $row['gap_raport'], $row['status_comment']) ?></td>
-                        <td></td>
+                        <td><a class="btn btn-light" href="<?= APPLICATION ?>/reclamation/create.php?calculation_id=<?=$row['id'] ?>">Выбрать</a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>
