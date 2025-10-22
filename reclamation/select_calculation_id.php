@@ -319,7 +319,7 @@ $executer = new Executer($sql);
                         <td><?= WORK_TYPE_NAMES[$row['work_type_id']] ?></td>
                         <td class="text-nowrap"><?=(mb_strlen($row['first_name']) == 0 ? '' : mb_substr($row['first_name'], 0, 1).'. ').$row['last_name'] ?></td>
                         <td class="text-nowrap" data-toggle="modal" data-target="#status_track" style="cursor: pointer;" onclick="javascript: StatusTrack(<?=$row['id'] ?>);"><?= ShowOrderStatus($row['status_id'], $row['length_cut'], $row['weight_cut'], $row['quantity_sum'], $row['quantity'], $row['unit'], $row['raport'], $row['length'], $row['gap_raport'], $row['status_comment']) ?></td>
-                        <td><a class="btn btn-light" href="<?= APPLICATION ?>/reclamation/create.php?calculation_id=<?=$row['id'] ?>">Выбрать</a></td>
+                        <td><a class="btn btn-light" href="create.php?calculation_id=<?=$row['id'] ?>">Выбрать</a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -390,7 +390,7 @@ $executer = new Executer($sql);
             $('a.customer').click(function(e) {
                 var customer_id = $(e.target).attr('data-customer-id');
                 if(customer_id !== null) {
-                    $.ajax({ url: "_customer.php?id=" + customer_id })
+                    $.ajax({ url: "<?= APPLICATION ?>/calculation/_customer.php?id=" + customer_id })
                             .done(function(data) {
                                 $('#customerModal .modal-dialog .modal-content').html(data);
                     });
