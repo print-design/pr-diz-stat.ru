@@ -89,7 +89,7 @@ $executer = new Executer($sql);
                     
                     $work_type = filter_input(INPUT_GET, 'work_type');
                     if(!empty($work_type)) {
-                        $where .= " and c.work_type = $work_type";
+                        $where .= " and c.work_type_id = $work_type";
                     }
                     
                     $manager = filter_input(INPUT_GET, 'manager');
@@ -131,9 +131,14 @@ $executer = new Executer($sql);
                     ?>
                 </div>
                 <div class="p-1 text-nowrap">
-                    <?php $order = filter_input(INPUT_GET, 'order'); ?>
+                    <?php
+                    $status = filter_input(INPUT_GET, 'status');
+                    $order = filter_input(INPUT_GET, 'order');
+                    ?>
                     <form class="form-inline d-inline" method="get">
-                        <input type="hidden" name="status" value="<?= filter_input(INPUT_GET, 'status') ?>" />
+                        <?php if(null !== $status): ?>
+                        <input type="hidden" name="status" value="<?= $status ?>" />
+                        <?php endif; ?>
                         <?php if(null !== $order): ?>
                         <input type="hidden" name="order" value="<?=$order ?>" />
                         <?php endif; ?>
