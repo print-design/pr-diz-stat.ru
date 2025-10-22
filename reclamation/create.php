@@ -20,6 +20,15 @@ $calculation_id_valid = '';
 $quantity_valid = '';
 $unit_valid = '';
 
+$defect_type = null;
+$quantity = null;
+$unit = null;
+$percent = null;
+$in_print = 0;
+$in_lamination = 0;
+$in_cut = 0;
+$comment = '';
+
 // Обработка отправки формы
 if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
     $calculation_id = filter_input(INPUT_POST, 'calculation_id');
@@ -27,6 +36,8 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
         $calculation_id_valid = ISINVALID;
         $form_valid = false;
     }
+    
+    $defect_type = filter_input(INPUT_POST, 'defect_type');
     
     $quantity = filter_input(INPUT_POST, 'quantity');
     if(empty($quantity)) {
@@ -41,9 +52,9 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
     }
     
     $percent = filter_input(INPUT_POST, 'percent');
-    $in_print = 0; if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
-    $in_lamination = 0; if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
-    $in_cut = 0; if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
+    if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
+    if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
+    if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
     $comment = filter_input(INPUT_POST, 'comment');
     
     if($form_valid) {
@@ -57,6 +68,24 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
         }
     }
 }
+
+// Получение данных
+$calculation_id = filter_input(INPUT_GET, 'calculation_id');
+$calculation = '';
+$sql = "select name from calculation where id = $calculation_id";
+$fetcher = new Fetcher($sql);
+if($row = $fetcher->Fetch()) {
+    $calculation = htmlentities($row[0]);
+}
+
+$defect_type = filter_input(INPUT_POST, "defect_type");
+$quantity = filter_input(INPUT_POST, 'quantity');
+$unit = filter_input(INPUT_POST, 'unit');
+$percent = filter_input(INPUT_POST, 'percent');
+if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
+if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
+if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
+$comment = htmlentities(filter_input(INPUT_POST, 'comment'));
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,7 +105,34 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
             }
             ?>
             <a class="btn btn-outline-dark backlink" href="<?= APPLICATION."/reclamation/" ?>">К списку</a>
-            <h1>Новая рекламация</h1>
+            <h1>Новая рекламация &ndash; <?=$calculation ?></h1>
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <form method="post">
+                        <input type="hidden" name="calcualtion_id" value="<?=$calculation_id ?>" />
+                        <div class="form-group">
+                            <label for="defect_type">Тип рекламации</label>
+                            <select id="defect_type" name="defect_type" class="form-control" required="required">
+                                <option value="" hidden="hidden">...</option>
+                                <?php
+                                foreach (DEFECT_TYPES as $item):
+                                    $selected = '';
+                                if($defect_type == $item) {
+                                    $selected = " selected='selected'";
+                                }
+                                ?>
+                                <option value="<?=$item ?>"<?=$selected ?>><?= DEFECT_TYPE_NAMES[$item] ?></option>
+                                <?php endforeach; ?>
+                                <option disabled="disabled"> </option>
+                                <option value=""<?= empty($defect_type) ? " selected='selected'" : "" ?>>Другое</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="padding-top: 24px;">
+                            <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit">Создать</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <?php
         include '../include/footer.php';

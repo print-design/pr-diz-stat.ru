@@ -205,13 +205,14 @@ const STREAM = "stream";
 const PRINTING = "printing";
 
 // Типы брака
-const DEFECT_TYPE_DELAMINATION = "деламинация";
-const DEFECT_TYPE_PRILADKA = "попадание приладки в отгруженную продукцию";
-const DEFECT_TYPE_WRONG_CMYK = "неверный цвет CMYK";
-const DEFECT_TYPE_WRONG_PANTON = "неверный цвет пантона";
-const DEFECT_TYPE_TEXT_LOSS = "исчезновение текста";
-const DEFECT_TYPE_WRONG_BARCODE = "неправильный баркод";
+const DEFECT_TYPE_DELAMINATION = 1;
+const DEFECT_TYPE_PRILADKA = 2;
+const DEFECT_TYPE_WRONG_CMYK = 3;
+const DEFECT_TYPE_WRONG_PANTON = 4;
+const DEFECT_TYPE_TEXT_LOSS = 5;
+const DEFECT_TYPE_WRONG_BARCODE = 6;
 const DEFECT_TYPES = array(DEFECT_TYPE_DELAMINATION, DEFECT_TYPE_PRILADKA, DEFECT_TYPE_WRONG_CMYK, DEFECT_TYPE_WRONG_PANTON, DEFECT_TYPE_TEXT_LOSS, DEFECT_TYPE_WRONG_BARCODE);
+const DEFECT_TYPE_NAMES = array(DEFECT_TYPE_DELAMINATION => "Деламинация", DEFECT_TYPE_PRILADKA => "Попадание приладки в отгруженную продукцию", DEFECT_TYPE_WRONG_CMYK => "Неверный цвет CMYK", DEFECT_TYPE_WRONG_PANTON => "Неверный цвет пантона", DEFECT_TYPE_TEXT_LOSS => "Исчезновение текста", DEFECT_TYPE_WRONG_BARCODE => "Неправильный баркод");
 
 // Другое
 const ISINVALID = ' is-invalid';
