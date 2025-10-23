@@ -124,11 +124,11 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment'));
                                 <option value="<?=$item ?>"<?=$selected ?>><?= DEFECT_TYPE_NAMES[$item] ?></option>
                                 <?php endforeach; ?>
                                 <option disabled="disabled"> </option>
-                                <option value=""<?= (empty($defect_type) && !empty(filter_input(INPUT_POST, 'reclamation_create_submit'))) ? " selected='selected'" : "" ?>>Другое</option>
+                                <option value=""<?= (empty($defect_type) && null !== filter_input(INPUT_POST, 'reclamation_create_submit')) ? " selected='selected'" : "" ?>>Другое</option>
                             </select>
                         </div>
                         <div class="form-group" style="padding-top: 24px;">
-                            <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit" value="on">Создать</button>
+                            <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit">Создать</button>
                         </div>
                     </form>
                 </div>
