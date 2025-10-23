@@ -127,6 +127,19 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment'));
                                 <option value=""<?= (empty($defect_type) && null !== filter_input(INPUT_POST, 'reclamation_create_submit')) ? " selected='selected'" : "" ?>>Другое</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="quantity"></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control int-only<?=$quantity_valid ?>" id="quantity" name="quantity" placeholder="Количество" value="<?= $quantity ?>" required="required" autocomplete="off" />
+                                <div class="input-group-append">
+                                    <select id="unit" name="unit" required="required">
+                                        <option value="" hidden="hidden">...</option>
+                                        <option value="m"<?=$unit == "m" ? " selected='selected'" : "" ?>>м</option>
+                                        <option value="pc"<?=$unit == "pc" ? " selected='selected'" : "" ?>>шт</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group" style="padding-top: 24px;">
                             <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit">Создать</button>
                         </div>
