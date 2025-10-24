@@ -128,7 +128,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment'));
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="quantity"></label>
+                            <label for="quantity">Количество</label>
                             <div class="input-group">
                                 <input type="text" class="form-control int-only<?=$quantity_valid ?>" id="quantity" name="quantity" placeholder="Количество" value="<?= $quantity ?>" required="required" autocomplete="off" />
                                 <div class="input-group-append">
@@ -139,6 +139,39 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment'));
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="percent">Количество, %</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control int-only" id="percent" name="percent" placeholder="Количество, %" value="<?=$percent ?>" autocomplete="off" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-lg-start">
+                            <div class="form-check mr-4">
+                                <label class="form-check-label" style="line-height: 25px;">
+                                    <input type="checkbox" class="form-check-input" id="in_print" name="in_print" value="on" <?=$in_print == 1 ? " checked='checked'" : "" ?> />
+                                    На печати
+                                </label>
+                            </div>
+                            <div class="form-check mr-4">
+                                <label class="form-check-label" style="line-height: 25px;">
+                                    <input type="checkbox" class="form-check-input" id="in_lamination" name="in_lamination" value="on"<?=$in_lamination == 1 ? " checked='checked'" : "" ?> />
+                                    На ламинации
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" style="line-height: 25px;">
+                                    <input type="checkbox" class="form-check-input" id="in_cut" name="in_cut" value="on"<?=$in_cut == 1 ? " checked='checked'" : "" ?> />
+                                    На резке
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Комментарий</label>
+                            <textarea class="form-control" rows="5" id="comment" name="comment"><?= htmlentities($comment) ?></textarea>
                         </div>
                         <div class="form-group" style="padding-top: 24px;">
                             <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit">Создать</button>
