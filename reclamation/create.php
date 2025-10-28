@@ -1,7 +1,7 @@
 <?php
 include '../include/topscripts.php';
 
-// Если не задано значение id, перенаправляем на список
+// Если не задано значение calculation_id, перенаправляем на список
 $id = filter_input(INPUT_GET, 'calculation_id');
 if(empty($id)) {
     header('Location: '.APPLICATION.'/reclamation/');
@@ -60,8 +60,10 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
     if($form_valid) {
         $comment = addslashes($comment);
         
-        $sql = "";
-        $insert_id = 0;
+        $sql = "insert into reclamation (calculation_id, defect_type, quantity, unit, percent, in_print, in_lamination, in_cut, comment) values ($calculation_id, $defect_type, $quantity, '$unit', $percent, $in_print, $in_lamination, $in_cut, '$comment')";
+        $executer = new Executer($sql);
+        $error_message = $executer->error;
+        $insert_id = $executer->insert_id;
         
         if(empty($error_message)) {
             header('Location: details.php?id='.$insert_id);
@@ -109,7 +111,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment'));
             <div class="row">
                 <div class="col-12 col-lg-4">
                     <form method="post">
-                        <input type="hidden" name="calcualtion_id" value="<?=$calculation_id ?>" />
+                        <input type="hidden" name="calculation_id" value="<?=$calculation_id ?>" />
                         <div class="form-group">
                             <label for="defect_type">Тип рекламации</label>
                             <select id="defect_type" name="defect_type" class="form-control" required="required">
@@ -127,25 +129,27 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment'));
                                 <option value=""<?= (empty($defect_type) && null !== filter_input(INPUT_POST, 'reclamation_create_submit')) ? " selected='selected'" : "" ?>>Другое</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="quantity">Количество</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control int-only<?=$quantity_valid ?>" id="quantity" name="quantity" placeholder="Количество" value="<?= $quantity ?>" required="required" autocomplete="off" />
-                                <div class="input-group-append">
-                                    <select id="unit" name="unit" required="required">
-                                        <option value="" hidden="hidden">...</option>
-                                        <option value="m"<?=$unit == "m" ? " selected='selected'" : "" ?>>м</option>
-                                        <option value="pc"<?=$unit == "pc" ? " selected='selected'" : "" ?>>шт</option>
-                                    </select>
+                        <div class="row">
+                            <div class="form-group col-12 col-lg-6">
+                                <label for="quantity">Количество</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control int-only<?=$quantity_valid ?>" id="quantity" name="quantity" placeholder="Количество" value="<?= $quantity ?>" required="required" autocomplete="off" />
+                                    <div class="input-group-append">
+                                        <select id="unit" name="unit" required="required">
+                                            <option value="" hidden="hidden">...</option>
+                                            <option value="m"<?=$unit == UNIT_M ? " selected='selected'" : "" ?>>м</option>
+                                            <option value="pc"<?=$unit == UNIT_PC ? " selected='selected'" : "" ?>>шт</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="percent">Количество, %</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control int-only" id="percent" name="percent" placeholder="Количество, %" value="<?=$percent ?>" autocomplete="off" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text">%</span>
+                            <div class="form-group col-12 col-lg-6">
+                                <label for="percent">Количество, %</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control int-only" id="percent" name="percent" placeholder="Количество, %" value="<?=$percent ?>" autocomplete="off" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">%</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

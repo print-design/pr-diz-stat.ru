@@ -214,6 +214,11 @@ const DEFECT_TYPE_WRONG_BARCODE = 6;
 const DEFECT_TYPES = array(DEFECT_TYPE_DELAMINATION, DEFECT_TYPE_PRILADKA, DEFECT_TYPE_WRONG_CMYK, DEFECT_TYPE_WRONG_PANTON, DEFECT_TYPE_TEXT_LOSS, DEFECT_TYPE_WRONG_BARCODE);
 const DEFECT_TYPE_NAMES = array(DEFECT_TYPE_DELAMINATION => "Деламинация", DEFECT_TYPE_PRILADKA => "Попадание приладки в отгруженную продукцию", DEFECT_TYPE_WRONG_CMYK => "Неверный цвет CMYK", DEFECT_TYPE_WRONG_PANTON => "Неверный цвет пантона", DEFECT_TYPE_TEXT_LOSS => "Исчезновение текста", DEFECT_TYPE_WRONG_BARCODE => "Неправильный баркод");
 
+// Единицы измерения
+const UNIT_M = "m";
+const UNIT_PC = "pc";
+const UNIT_NAMES = array(UNIT_M => "м", UNIT_PC => "шт");
+
 // Другое
 const ISINVALID = ' is-invalid';
 ?>
