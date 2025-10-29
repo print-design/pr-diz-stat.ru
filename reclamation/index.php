@@ -24,6 +24,14 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
             if(!empty($error_message)) {
                 echo "<div class='alert alert-danger'>$error_message</div>";
             }
+            
+            // Общее количество рекламаций для установления количества страниц в постраничном выводе
+            $sql = "select count(r.id) from reclamation r inner join calculation c on r.calculation_id = c.id";
+            $fetcher = new Fetcher($sql);
+            
+            if($row = $fetcher->Fetch()) {
+                $pager_total_count = $row[0];
+            }
             ?>
             <div class="d-flex justify-content-between mb-auto">
                 <div class="p-0">
@@ -35,21 +43,44 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
             </div>
             <table class="table table-hover" id="content_table">
                 <thead>
-                    <tr style="border-top: 1px solid #dee2e6; border-left: 1px solid #dee2e6; border-right: 1px solid #dee2e6;">
-                        <th style="padding-left: 5px; padding-right: 5px;">Дата</th>
-                        <th style="padding-left: 5px; padding-right: 5px;">№ заказа</th>
-                        <th style="padding-left: 5px; padding-right: 5px;">Заказ</th>
-                        <th style="padding-left: 5px; padding-right: 5px;">Количество</th>
-                        <th style="padding-left: 5px; padding-right: 5px;">В процентах</th>
-                        <th style="padding-left: 5px; padding-right: 5px;">Этапы</th>
-                        <th style="padding-left: 5px; padding-right: 5px;">Комментарий</th>
+                    <tr>
+                        <th>Дата</th>
+                        <th>№ заказа</th>
+                        <th>Заказ</th>
+                        <th>Количество</th>
+                        <th>В процентах</th>
+                        <th>На печати</th>
+                        <th>На ламинации</th>
+                        <th>На резке</th>
+                        <th>Комментарий</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "";
+                    $sql = "select r.id, r.date, r.calculation_id, r.defect_type, r.quantity, r.unit, r.percent, r.in_print, r.in_lamination, r.in_cut, r.comment, "
+                            . "c.name reclamation, c.customer_id, "
+                            . "(select count(id) from calculation where customer_id = c.customer_id and id <= c.id) as num_for_customer "
+                            . "from reclamation r "
+                            . "inner join calculation c on r.calculation_id = c.id "
+                            . "order by r.id desc limit $pager_skip, $pager_take";
+                    $fetcher = new Fetcher($sql);
+                    while ($row = $fetcher->Fetch()):
+                        $rowcounter++;
                     ?>
+                    <tr>
+                        <td class="text-nowrap"><?=DateTime::createFromFormat('Y-m-d H:i:s', $row['date'])->format('d.m.Y H:i') ?></td>
+                        <td><?=$row['customer_id'].'-'.$row['num_for_customer'] ?></td>
+                        <td><?=$row['reclamation'] ?></td>
+                        <td><?=$row['quantity'] ?></td>
+                        <td><?= empty($row['percent']) ? '' : $row['percent'].'%' ?></td>
+                        <td><?= $row['in_print'] == 1 ? "На печати" : "" ?></td>
+                        <td><?= $row['in_lamination'] == 1 ? "На ламинации" : "" ?></td>
+                        <td><?= $row['in_cut'] == 1 ? "На резке" : "" ?></td>
+                        <td><?= htmlentities($row['comment']) ?></td>
+                        <td><a href="details.php<?= BuildQuery("id", $row['id']) ?>"><img src="<?=APPLICATION ?>/images/icons/vertical-dots.svg" /></a></td>
+                    </tr>
+                    <?php endwhile; ?>
                 </tbody>
             </table>
             <?php
