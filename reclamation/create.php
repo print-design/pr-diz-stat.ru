@@ -87,7 +87,7 @@ $percent = filter_input(INPUT_POST, 'percent');
 if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
 if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
 if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
-$comment = htmlentities(filter_input(INPUT_POST, 'comment'));
+$comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
 ?>
 <!DOCTYPE html>
 <html>
