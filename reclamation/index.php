@@ -67,12 +67,13 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                     $fetcher = new Fetcher($sql);
                     while ($row = $fetcher->Fetch()):
                         $rowcounter++;
+                    $quantity = number_format($row['quantity'] ?? 0, 0, ",", " ").' '. UNIT_NAMES[$row['unit']].'.';
                     ?>
                     <tr>
                         <td class="text-nowrap"><?=DateTime::createFromFormat('Y-m-d H:i:s', $row['date'])->format('d.m.Y H:i') ?></td>
                         <td><?=$row['customer_id'].'-'.$row['num_for_customer'] ?></td>
                         <td><?=$row['reclamation'] ?></td>
-                        <td><?=$row['quantity'] ?></td>
+                        <td><?=$quantity ?></td>
                         <td><?= empty($row['percent']) ? '' : $row['percent'].'%' ?></td>
                         <td><?= $row['in_print'] == 1 ? "На печати" : "" ?></td>
                         <td><?= $row['in_lamination'] == 1 ? "На ламинации" : "" ?></td>
