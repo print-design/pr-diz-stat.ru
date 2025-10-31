@@ -74,10 +74,22 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
 // Получение данных
 $calculation_id = filter_input(INPUT_GET, 'calculation_id');
 $calculation = '';
-$sql = "select name from calculation where id = $calculation_id";
+$date = null;
+$customer_id = 0;
+$customer = '';
+$num_for_customer = 0;
+$sql = "select c.name, c.date, c.customer_id, cus.name customer, "
+        . "(select count(id) from calculation where customer_id = c.customer_id and id <= c.id) as num_for_customer "
+        . "from calculation c "
+        . "inner join customer cus on c.customer_id = cus.id "
+        . "where c.id = $calculation_id";
 $fetcher = new Fetcher($sql);
 if($row = $fetcher->Fetch()) {
-    $calculation = htmlentities($row[0]);
+    $calculation = htmlentities($row['name']);
+    $date = $row['date'];
+    $customer_id = $row['customer_id'];
+    $customer = htmlentities($row['customer']);
+    $num_for_customer = $row['num_for_customer'];
 }
 
 $defect_type = filter_input(INPUT_POST, "defect_type");
@@ -95,6 +107,19 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
         <?php
         include '../include/head.php';
         ?>
+        <style>
+            .name {
+                font-size: 26px;
+                font-weight: bold;
+                line-height: 45px;
+            }
+            
+            .subtitle {
+                font-weight: bold;
+                font-size: 20px;
+                line-height: 40px
+            }
+        </style>
     </head>
     <body>
         <?php
@@ -107,7 +132,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
             }
             ?>
             <a class="btn btn-outline-dark backlink" href="<?= APPLICATION."/reclamation/" ?>">К списку</a>
-            <h1>Новая рекламация &ndash; <?=$calculation ?></h1>
+            <h1>Новая рекламация</h1>
             <div class="row">
                 <div class="col-12 col-lg-4">
                     <form method="post">
@@ -153,6 +178,13 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                 </div>
                             </div>
                         </div>
+                        <div class="name">Заказчик: <?=$customer ?></div>
+                        <div class="name">Наименование: <?=$calculation ?></div>
+                        <div class="subtitle">№ расчёта: <?=$customer_id.'-'.$num_for_customer ?> от <?= DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y') ?></div>
+                        <hr />
+                        <h2>Дефекты</h2>
+                        <button type="button" class="btn btn-dark" id="add_defect">Добавить дефект</button>
+                        <hr />
                         <div class="d-flex justify-content-lg-start">
                             <div class="form-check mr-4">
                                 <label class="form-check-label" style="line-height: 25px;">
