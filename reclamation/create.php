@@ -119,12 +119,69 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                 font-size: 20px;
                 line-height: 40px
             }
+            
+            .modal-content {
+                border-radius: 20px;
+            }
         </style>
     </head>
     <body>
         <?php
         include '../include/header.php';
         ?>
+        <div id="add_defect" class="modal fade show">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post">
+                        <div class="modal-header">
+                            <span class="font-weight-bold" style="font-size: x-large;">Добавить дефект</span>
+                            <button type="button" class="close create_film_variation_dismiss" data-dismiss="modal"><i class="fas fa-times" style="color: #EC3A7A;"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="defect_type">Тип рекламации</label>
+                                <select id="defect_type" name="defect_type" class="form-control" required="required">
+                                    <option value="" hidden="hidden">...</option>
+                                    <?php foreach(DEFECT_TYPES as $item): ?>
+                                    <option value="<?=$item ?>"><?= DEFECT_TYPE_NAMES[$item] ?></option>
+                                    <?php endforeach; ?>
+                                    <option disabled="disabled"> </option>
+                                    <option value="">Другое</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="quantity">Количество</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control int-only" id="quantity" name="quantity" placeholder="Количество" required="required" autocomplete="off" />
+                                        <div class="input-group-append">
+                                            <select id="unit" name="unit" required="required">
+                                                <option value="" hidden="hidden">...</option>
+                                                <option value="<?= UNIT_M ?>"><?= UNIT_NAMES[UNIT_M] ?></option>
+                                                <option value="<?= UNIT_PC ?>"><?= UNIT_NAMES[UNIT_PC] ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="percent">Количество, %</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control int-only" id="percent" name="percent" placeholder="Количество, %" autocomplete="off" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-dark" id="add_defect_submit" name="add_defect_submit">Добавить</button>
+                            <button type="button" class="btn btn-light create_film_variation_dismiss" data-dismiss="modal">Отменить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="container-fluid">
             <?php
             if(!empty($error_message)) {
@@ -137,53 +194,12 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                 <div class="col-12 col-lg-4">
                     <form method="post">
                         <input type="hidden" name="calculation_id" value="<?=$calculation_id ?>" />
-                        <div class="form-group">
-                            <label for="defect_type">Тип рекламации</label>
-                            <select id="defect_type" name="defect_type" class="form-control" required="required">
-                                <option value="" hidden="hidden">...</option>
-                                <?php
-                                foreach (DEFECT_TYPES as $item):
-                                    $selected = '';
-                                if($defect_type == $item) {
-                                    $selected = " selected='selected'";
-                                }
-                                ?>
-                                <option value="<?=$item ?>"<?=$selected ?>><?= DEFECT_TYPE_NAMES[$item] ?></option>
-                                <?php endforeach; ?>
-                                <option disabled="disabled"> </option>
-                                <option value=""<?= (empty($defect_type) && null !== filter_input(INPUT_POST, 'reclamation_create_submit')) ? " selected='selected'" : "" ?>>Другое</option>
-                            </select>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-12 col-lg-6">
-                                <label for="quantity">Количество</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control int-only<?=$quantity_valid ?>" id="quantity" name="quantity" placeholder="Количество" value="<?= $quantity ?>" required="required" autocomplete="off" />
-                                    <div class="input-group-append">
-                                        <select id="unit" name="unit" required="required">
-                                            <option value="" hidden="hidden">...</option>
-                                            <option value="m"<?=$unit == UNIT_M ? " selected='selected'" : "" ?>>м</option>
-                                            <option value="pc"<?=$unit == UNIT_PC ? " selected='selected'" : "" ?>>шт</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-12 col-lg-6">
-                                <label for="percent">Количество, %</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control int-only" id="percent" name="percent" placeholder="Количество, %" value="<?=$percent ?>" autocomplete="off" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="name">Заказчик: <?=$customer ?></div>
                         <div class="name">Наименование: <?=$calculation ?></div>
                         <div class="subtitle">№ расчёта: <?=$customer_id.'-'.$num_for_customer ?> от <?= DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y') ?></div>
                         <hr />
                         <h2>Дефекты</h2>
-                        <button type="button" class="btn btn-dark" id="add_defect">Добавить дефект</button>
+                        <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect">Добавить дефект</button>
                         <hr />
                         <div class="d-flex justify-content-lg-start">
                             <div class="form-check mr-4">
