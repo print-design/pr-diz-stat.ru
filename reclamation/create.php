@@ -17,13 +17,16 @@ $form_valid = true;
 $error_message = '';
 
 $calculation_id_valid = '';
-$quantity_valid = '';
-$unit_valid = '';
 
-$defect_type = null;
-$quantity = null;
-$unit = null;
-$percent = null;
+const DEFECT = "defect";
+const QUANTITY = "quantity";
+const UNIT = "unit";
+const PERCENT = "percent";
+
+$defects = array();
+$quantities = array();
+$units = array();
+$percents = array();
 $in_print = 0;
 $in_lamination = 0;
 $in_cut = 0;
@@ -37,33 +40,52 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
         $form_valid = false;
     }
     
-    $defect_type = filter_input(INPUT_POST, 'defect_type');
+    foreach($_POST as $key => $value) {
+        $substrings = explode('_', $key);
+        
+        if(count($substrings) == 2) {
+            switch ($substrings[0]) {
+                case DEFECT:
+                    $defects[$substrings[1]] = $value;
+                    break;
+                case QUANTITY:
+                    $quantities[$substrings[1]] = $value;
+                    break;
+                case UNIT:
+                    $units[$substrings[1]] = $value;
+                    break;
+                case PERCENT:
+                    $percents[$substrings[1]] = $value;
+                    break;
+            }
+        }
+    }
     
-    $quantity = filter_input(INPUT_POST, 'quantity');
-    if(empty($quantity)) {
-        $quantity_valid = ISINVALID;
+    if(count($defects) == 0) {
+        $error_message = "Укажите хотя бы один дефект";
         $form_valid = false;
     }
     
-    $unit = filter_input(INPUT_POST, 'unit');
-    if(empty($unit)) {
-        $unit_valid = ISINVALID;
-        $form_valid = false;
+    if($form_valid) {
+        if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
+        if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
+        if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
+        
+        if($in_print == 0 && $in_lamination == 0 && $in_cut == 0) {
+            $error_message = "Укажите хотя бы одну локализацию";
+            $form_valid = false;
+        }
     }
     
-    $percent = filter_input(INPUT_POST, 'percent');
-    if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
-    if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
-    if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
     $comment = filter_input(INPUT_POST, 'comment');
     
     if($form_valid) {
         $comment = addslashes($comment);
         
-        $sql = "insert into reclamation (calculation_id, defect_type, quantity, unit, percent, in_print, in_lamination, in_cut, comment) values ($calculation_id, $defect_type, $quantity, '$unit', $percent, $in_print, $in_lamination, $in_cut, '$comment')";
-        $executer = new Executer($sql);
-        $error_message = $executer->error;
-        $insert_id = $executer->insert_id;
+        //$sql = "insert into reclamation (calculation_id, defect_type, quantity, unit, percent, in_print, in_lamination, in_cut, comment) values ($calculation_id, $defect_type, $quantity, '$unit', $percent, $in_print, $in_lamination, $in_cut, '$comment')";
+        //$executer = new Executer($sql);
+        //$error_message = $executer->error;
+        //$insert_id = $executer->insert_id;
         
         if(empty($error_message)) {
             header('Location: details.php?id='.$insert_id);
@@ -139,8 +161,8 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="defect_type">Тип рекламации</label>
-                                <select id="defect_type" name="defect_type" class="form-control" required="required">
+                                <label for="defect">Тип рекламации</label>
+                                <select id="defect" name="defect" class="form-control" required="required">
                                     <option value="" hidden="hidden">...</option>
                                     <?php foreach(DEFECT_TYPES as $item): ?>
                                     <option value="<?=$item ?>"><?= DEFECT_TYPE_NAMES[$item] ?></option>
@@ -201,6 +223,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <h2>Дефекты</h2>
                         <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect">Добавить дефект</button>
                         <hr />
+                        <h2>Локализации</h2>
                         <div class="d-flex justify-content-lg-start">
                             <div class="form-check mr-4">
                                 <label class="form-check-label" style="line-height: 25px;">
@@ -221,6 +244,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                 </label>
                             </div>
                         </div>
+                        <hr />
                         <div class="form-group">
                             <label for="comment">Комментарий</label>
                             <textarea class="form-control" rows="5" id="comment" name="comment"><?= htmlentities($comment) ?></textarea>
