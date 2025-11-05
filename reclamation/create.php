@@ -72,27 +72,6 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
         $form_valid = false;
     }
     
-    foreach($_POST as $key => $value) {
-        $substrings = explode('_', $key);
-        
-        if(count($substrings) == 2) {
-            switch ($substrings[0]) {
-                case DEFECT:
-                    $defects[$substrings[1]] = $value;
-                    break;
-                case QUANTITY:
-                    $quantities[$substrings[1]] = $value;
-                    break;
-                case UNIT:
-                    $units[$substrings[1]] = $value;
-                    break;
-                case PERCENT:
-                    $percents[$substrings[1]] = $value;
-                    break;
-            }
-        }
-    }
-    
     if(count($defects) == 0) {
         $error_message = "Укажите хотя бы один дефект";
         $form_valid = false;
@@ -119,9 +98,9 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
         //$error_message = $executer->error;
         //$insert_id = $executer->insert_id;
         
-        if(empty($error_message)) {
-            header('Location: details.php?id='.$insert_id);
-        }
+        //if(empty($error_message)) {
+        //    header('Location: details.php?id='.$insert_id);
+        //}
     }
 }
 
@@ -217,6 +196,10 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <input type="hidden" name="<?= UNIT.'_'.$i ?>" value="<?= key_exists($i, $units) ? $units[$i] : '' ?>" />
                         <input type="hidden" name="<?= PERCENT.'_'.$i ?>" value="<?= key_exists($i, $percents) ? $percents[$i] : '' ?>" />
                         <?php endwhile; ?>
+                        <input type="hidden" name="in_print" value="<?=$in_print == 1 ? 'on' : '' ?>" />
+                        <input type="hidden" name="in_lamination" value="<?=$in_lamination == 1 ? 'on' : '' ?>" />
+                        <input type="hidden" name="in_cut" value="<?=$in_cut == 1 ? 'on' : '' ?>" />
+                        <input type="hidden" name="comment" value="<?= htmlentities($comment) ?>" />
                         <div class="modal-header">
                             <span class="font-weight-bold" style="font-size: x-large;">Добавить дефект</span>
                             <button type="button" class="close create_film_variation_dismiss" data-dismiss="modal"><i class="fas fa-times" style="color: #EC3A7A;"></i></button>
