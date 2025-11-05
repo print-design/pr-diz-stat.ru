@@ -27,6 +27,38 @@ $defects = array();
 $quantities = array();
 $units = array();
 $percents = array();
+
+foreach($_POST as $key => $value) {
+    $substrings = explode('_', $key);
+    
+    if(count($substrings) == 2) {
+        switch($substrings[0]) {
+            case DEFECT:
+                $defects[$substrings[1]] = $value;
+                break;
+            case QUANTITY:
+                $quantities[$substrings[1]] = $value;
+                break;
+            case UNIT:
+                $units[$substrings[1]] = $value;
+                break;
+            case PERCENT:
+                $percents[$substrings[1]] = $value;
+                break;
+        }
+    }
+}
+
+$i = 0;
+while (key_exists(++$i, $defects)) { }
+$defect = filter_input(INPUT_POST, DEFECT);
+if(null !== $defect) {
+    $defects[$i] = $defect;
+    $quantities[$i] = filter_input(INPUT_POST, QUANTITY);
+    $units[$i] = filter_input(INPUT_POST, UNIT);
+    $percents[$i] = filter_input(INPUT_POST, PERCENT);
+}
+
 $in_print = 0;
 $in_lamination = 0;
 $in_cut = 0;
@@ -155,14 +187,44 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="post">
+                        <?php
+                        foreach($_POST as $key => $value) {
+                            $substrings = explode('_', $key);
+                            
+                            if(count($substrings) == 2) {
+                                switch ($substrings[0]) {
+                                    case DEFECT:
+                                        $defects[$substrings[1]] = $value;
+                                        break;
+                                    case QUANTITY:
+                                        $quantities[$substrings[1]] = $value;
+                                        break;
+                                    case UNIT:
+                                        $units[$substrings[1]] = $value;
+                                        break;
+                                    case PERCENT:
+                                        $percents[$substrings[1]] = $value;
+                                        break;
+                                }
+                            }
+                        }
+                        
+                        $i = 0;
+                        while(key_exists(++$i, $defects)):
+                        ?>
+                        <input type="hidden" name="<?= DEFECT.'_'.$i ?>" value="<?=$defects[$i] ?>" />
+                        <input type="hidden" name="<?= QUANTITY.'_'.$i ?>" value="<?= key_exists($i, $quantities) ? $quantities[$i] : '' ?>" />
+                        <input type="hidden" name="<?= UNIT.'_'.$i ?>" value="<?= key_exists($i, $units) ? $units[$i] : '' ?>" />
+                        <input type="hidden" name="<?= PERCENT.'_'.$i ?>" value="<?= key_exists($i, $percents) ? $percents[$i] : '' ?>" />
+                        <?php endwhile; ?>
                         <div class="modal-header">
                             <span class="font-weight-bold" style="font-size: x-large;">Добавить дефект</span>
                             <button type="button" class="close create_film_variation_dismiss" data-dismiss="modal"><i class="fas fa-times" style="color: #EC3A7A;"></i></button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="defect">Тип рекламации</label>
-                                <select id="defect" name="defect" class="form-control" required="required">
+                                <label for="<?= DEFECT ?>">Тип рекламации</label>
+                                <select id="<?= DEFECT ?>" name="<?= DEFECT ?>" class="form-control" required="required">
                                     <option value="" hidden="hidden">...</option>
                                     <?php foreach(DEFECT_TYPES as $item): ?>
                                     <option value="<?=$item ?>"><?= DEFECT_TYPE_NAMES[$item] ?></option>
@@ -175,9 +237,9 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                 <div class="form-group col-6">
                                     <label for="quantity">Количество</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control int-only" id="quantity" name="quantity" placeholder="Количество" required="required" autocomplete="off" />
+                                        <input type="text" class="form-control int-only" id="<?= QUANTITY ?>" name="<?= QUANTITY ?>" placeholder="Количество" required="required" autocomplete="off" />
                                         <div class="input-group-append">
-                                            <select id="unit" name="unit" required="required">
+                                            <select id="<?= UNIT ?>" name="<?= UNIT ?>" required="required">
                                                 <option value="" hidden="hidden">...</option>
                                                 <option value="<?= UNIT_M ?>"><?= UNIT_NAMES[UNIT_M] ?></option>
                                                 <option value="<?= UNIT_PC ?>"><?= UNIT_NAMES[UNIT_PC] ?></option>
@@ -188,7 +250,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                 <div class="form-group col-6">
                                     <label for="percent">Количество, %</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control int-only" id="percent" name="percent" placeholder="Количество, %" autocomplete="off" />
+                                        <input type="text" class="form-control int-only" id="<?= PERCENT ?>" name="<?= PERCENT ?>" placeholder="Количество, %" autocomplete="off" />
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
@@ -221,6 +283,35 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <div class="subtitle">№ расчёта: <?=$customer_id.'-'.$num_for_customer ?> от <?= DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y') ?></div>
                         <hr />
                         <h2>Дефекты</h2>
+                        <table class="table">
+                            <tr>
+                                <th>Тип</th>
+                                <th>м/шт</th>
+                                <th>%</th>
+                                <th></th>
+                            </tr>
+                            <?php
+                            $i = 0;
+                            while(key_exists(++$i, $defects)):
+                            ?>
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="<?= DEFECT.'_'.$i ?>" value="<?=$defects[$i] ?>" />
+                                    <?= DEFECT_TYPE_NAMES[$defects[$i]] ?>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="<?= QUANTITY.'_'.$i ?>" value="<?= key_exists($i, $quantities) ? $quantities[$i] : '' ?>" />
+                                    <input type="hidden" name="<?= UNIT.'_'.$i ?>" value="<?= key_exists($i, $units) ? $units[$i] : '' ?>" />
+                                    <?= (key_exists($i, $quantities) ? $quantities[$i] : '').' '.(key_exists($i, $units) ? UNIT_NAMES[$units[$i]] : '') ?>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="<?= PERCENT.'_'.$i ?>" value="<?= key_exists($i, $percents) ? $percents[$i] : '' ?>" />
+                                    <?= key_exists($i, $percents) ? $percents[$i].' %' : '' ?>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <?php endwhile; ?>
+                        </table>
                         <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect">Добавить дефект</button>
                         <hr />
                         <h2>Локализации</h2>
