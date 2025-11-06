@@ -196,10 +196,10 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <input type="hidden" name="<?= UNIT.'_'.$i ?>" value="<?= key_exists($i, $units) ? $units[$i] : '' ?>" />
                         <input type="hidden" name="<?= PERCENT.'_'.$i ?>" value="<?= key_exists($i, $percents) ? $percents[$i] : '' ?>" />
                         <?php endwhile; ?>
-                        <input type="hidden" name="in_print" value="<?=$in_print == 1 ? 'on' : '' ?>" />
-                        <input type="hidden" name="in_lamination" value="<?=$in_lamination == 1 ? 'on' : '' ?>" />
-                        <input type="hidden" name="in_cut" value="<?=$in_cut == 1 ? 'on' : '' ?>" />
-                        <input type="hidden" name="comment" value="<?= htmlentities($comment) ?>" />
+                        <input type="hidden" name="in_print" id="in_print_modal" value="<?=$in_print == 1 ? 'on' : '' ?>" />
+                        <input type="hidden" name="in_lamination" id="in_lamination_modal" value="<?=$in_lamination == 1 ? 'on' : '' ?>" />
+                        <input type="hidden" name="in_cut" id="in_cut_modal" value="<?=$in_cut == 1 ? 'on' : '' ?>" />
+                        <input type="hidden" name="comment" id="comment_modal" value="<?= htmlentities($comment) ?>" />
                         <div class="modal-header">
                             <span class="font-weight-bold" style="font-size: x-large;">Добавить дефект</span>
                             <button type="button" class="close create_film_variation_dismiss" data-dismiss="modal"><i class="fas fa-times" style="color: #EC3A7A;"></i></button>
@@ -301,19 +301,19 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <div class="d-flex justify-content-lg-start">
                             <div class="form-check mr-4">
                                 <label class="form-check-label" style="line-height: 25px;">
-                                    <input type="checkbox" class="form-check-input" id="in_print" name="in_print" value="on" <?=$in_print == 1 ? " checked='checked'" : "" ?> />
+                                    <input type="checkbox" class="form-check-input" id="in_print" name="in_print" value="on" onchange="javascript: $('#in_print_modal').val($(this).is(':checked') ? 'on' : '');" <?=$in_print == 1 ? " checked='checked'" : "" ?> />
                                     На печати
                                 </label>
                             </div>
                             <div class="form-check mr-4">
                                 <label class="form-check-label" style="line-height: 25px;">
-                                    <input type="checkbox" class="form-check-input" id="in_lamination" name="in_lamination" value="on"<?=$in_lamination == 1 ? " checked='checked'" : "" ?> />
+                                    <input type="checkbox" class="form-check-input" id="in_lamination" name="in_lamination" onchange="javascript: $('#in_lamination_modal').val($(this).is(':checked') ? 'on' : '');" value="on"<?=$in_lamination == 1 ? " checked='checked'" : "" ?> />
                                     На ламинации
                                 </label>
                             </div>
                             <div class="form-check">
                                 <label class="form-check-label" style="line-height: 25px;">
-                                    <input type="checkbox" class="form-check-input" id="in_cut" name="in_cut" value="on"<?=$in_cut == 1 ? " checked='checked'" : "" ?> />
+                                    <input type="checkbox" class="form-check-input" id="in_cut" name="in_cut" onchange="javascript: $('#in_cut_modal').val($(this).is(':checked') ? 'on' : '');" value="on"<?=$in_cut == 1 ? " checked='checked'" : "" ?> />
                                     На резке
                                 </label>
                             </div>
@@ -321,7 +321,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <hr />
                         <div class="form-group">
                             <label for="comment">Комментарий</label>
-                            <textarea class="form-control" rows="5" id="comment" name="comment"><?= htmlentities($comment) ?></textarea>
+                            <textarea class="form-control" rows="5" id="comment" name="comment" onkeyup="javascript: $('#comment_modal').val($(this).val());"><?= htmlentities($comment) ?></textarea>
                         </div>
                         <div class="form-group" style="padding-top: 24px;">
                             <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit">Создать</button>
