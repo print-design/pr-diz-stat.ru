@@ -260,6 +260,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
             <div class="row">
                 <div class="col-12 col-lg-4">
                     <form method="post">
+                        <input type="hidden" name="scroll" />
                         <input type="hidden" name="calculation_id" value="<?=$calculation_id ?>" />
                         <div class="name">Заказчик: <?=$customer ?></div>
                         <div class="name">Наименование: <?=$calculation ?></div>
@@ -291,7 +292,9 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                     <input type="hidden" name="<?= PERCENT.'_'.$i ?>" value="<?= key_exists($i, $percents) ? $percents[$i] : '' ?>" />
                                     <?= (key_exists($i, $percents) && !empty($percents[$i])) ? $percents[$i].' %' : '' ?>
                                 </td>
-                                <td></td>
+                                <td>
+                                    <button type="submit" class="btn btn-sm btn-light" style="font-size: xx-large;" name="remove_defect" value="<?=$i ?>">×</button>
+                                </td>
                             </tr>
                             <?php endwhile; ?>
                         </table>
