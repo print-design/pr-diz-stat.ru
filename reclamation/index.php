@@ -47,8 +47,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                         <th>Дата</th>
                         <th>№ заказа</th>
                         <th>Заказ</th>
-                        <th>Количество</th>
-                        <th>В процентах</th>
+                        <th>Дефекты</th>
                         <th>На печати</th>
                         <th>На ламинации</th>
                         <th>На резке</th>
@@ -58,7 +57,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "select r.id, r.date, r.calculation_id, r.defect_type, r.quantity, r.unit, r.percent, r.in_print, r.in_lamination, r.in_cut, r.comment, "
+                    $sql = "select r.id, r.date, r.calculation_id, c.name calculation, r.in_print, r.in_lamination, r.in_cut, r.comment, "
                             . "c.name reclamation, c.customer_id, "
                             . "(select count(id) from calculation where customer_id = c.customer_id and id <= c.id) as num_for_customer "
                             . "from reclamation r "
@@ -67,14 +66,12 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                     $fetcher = new Fetcher($sql);
                     while ($row = $fetcher->Fetch()):
                         $rowcounter++;
-                    $quantity = number_format($row['quantity'] ?? 0, 0, ",", " ").' '. UNIT_NAMES[$row['unit']].'.';
                     ?>
                     <tr>
                         <td class="text-nowrap"><?=DateTime::createFromFormat('Y-m-d H:i:s', $row['date'])->format('d.m.Y H:i') ?></td>
                         <td><?=$row['customer_id'].'-'.$row['num_for_customer'] ?></td>
-                        <td><?=$row['reclamation'] ?></td>
-                        <td><?=$quantity ?></td>
-                        <td><?= empty($row['percent']) ? '' : $row['percent'].'%' ?></td>
+                        <td><?=$row['calculation'] ?></td>
+                        <td></td>
                         <td><?= $row['in_print'] == 1 ? "На печати" : "" ?></td>
                         <td><?= $row['in_lamination'] == 1 ? "На ламинации" : "" ?></td>
                         <td><?= $row['in_cut'] == 1 ? "На резке" : "" ?></td>

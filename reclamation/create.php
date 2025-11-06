@@ -128,14 +128,26 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
     if($form_valid) {
         $comment = addslashes($comment);
         
-        //$sql = "insert into reclamation (calculation_id, defect_type, quantity, unit, percent, in_print, in_lamination, in_cut, comment) values ($calculation_id, $defect_type, $quantity, '$unit', $percent, $in_print, $in_lamination, $in_cut, '$comment')";
-        //$executer = new Executer($sql);
-        //$error_message = $executer->error;
-        //$insert_id = $executer->insert_id;
+        $sql = "insert into reclamation (calculation_id, in_print, in_lamination, in_cut, comment) values ($calculation_id, $in_print, $in_lamination, $in_cut, '$comment')";
+        $executer = new Executer($sql);
+        $error_message = $executer->error;
+        $insert_id = $executer->insert_id;
         
-        //if(empty($error_message)) {
-        //    header('Location: details.php?id='.$insert_id);
-        //}
+        if(empty($error_message) && !empty($insert_id)) {
+            foreach ($defects as $key => $value) {
+                $defect = $value;
+                $quantity = key_exists($key, $quantities) ? $quantities[$key] : 0;
+                $unit = key_exists($key, $units) ? $units[$key] : '';
+                $percent = key_exists($key, $percents) ? $percents[$key] : 'NULL';
+                $sql = "insert into reclamation_defect (reclamation_id, defect_type, quantity, unit, percent) values ($insert_id, $defect, $quantity, '$unit', $percent)";
+                $executer = new Executer($sql);
+                $error_message = $executer->error;
+            }
+        }
+        
+        if(empty($error_message)) {
+            header('Location: details.php?id='.$insert_id);
+        }
     }
 }
 
