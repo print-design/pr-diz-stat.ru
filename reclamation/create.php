@@ -28,22 +28,24 @@ $quantities = array();
 $units = array();
 $percents = array();
 
+$i = 0;
+
 foreach($_POST as $key => $value) {
     $substrings = explode('_', $key);
     
     if(count($substrings) == 2) {
         switch($substrings[0]) {
             case DEFECT:
-                $defects[$substrings[1]] = $value;
+                $defects[++$i] = $value;
                 break;
             case QUANTITY:
-                $quantities[$substrings[1]] = $value;
+                $quantities[$i] = $value;
                 break;
             case UNIT:
-                $units[$substrings[1]] = $value;
+                $units[$i] = $value;
                 break;
             case PERCENT:
-                $percents[$substrings[1]] = $value;
+                $percents[$i] = $value;
                 break;
         }
     }
@@ -63,6 +65,39 @@ $in_print = 0;
 $in_lamination = 0;
 $in_cut = 0;
 $comment = '';
+
+// Удаление дефекта из списка
+$remove_defect = filter_input(INPUT_POST, 'remove_defect');
+
+if(null !== $remove_defect) {
+    $defects = array();
+    $quantities = array();
+    $units = array();
+    $percents = array();
+    
+    $i = 0;
+    
+    foreach($_POST as $key => $value) {
+        $substrings = explode('_', $key);
+        
+        if(count($substrings) == 2 && $substrings[1] != $remove_defect) {
+            switch ($substrings[0]) {
+                case DEFECT:
+                    $defects[++$i] = $value;
+                    break;
+                case QUANTITY:
+                    $quantities[$i] = $value;
+                    break;
+                case UNIT:
+                    $units[$i] = $value;
+                    break;
+                case PERCENT:
+                    $percents[$i] = $value;
+                    break;
+            }
+        }
+    }
+}
 
 // Обработка отправки формы
 if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
@@ -166,28 +201,8 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="post">
-                        <?php
-                        foreach($_POST as $key => $value) {
-                            $substrings = explode('_', $key);
-                            
-                            if(count($substrings) == 2) {
-                                switch ($substrings[0]) {
-                                    case DEFECT:
-                                        $defects[$substrings[1]] = $value;
-                                        break;
-                                    case QUANTITY:
-                                        $quantities[$substrings[1]] = $value;
-                                        break;
-                                    case UNIT:
-                                        $units[$substrings[1]] = $value;
-                                        break;
-                                    case PERCENT:
-                                        $percents[$substrings[1]] = $value;
-                                        break;
-                                }
-                            }
-                        }
-                        
+                        <input type="hidden" name="scroll" />
+                        <?php 
                         $i = 0;
                         while(key_exists(++$i, $defects)):
                         ?>
@@ -281,7 +296,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                             <tr>
                                 <td>
                                     <input type="hidden" name="<?= DEFECT.'_'.$i ?>" value="<?=$defects[$i] ?>" />
-                                    <?= DEFECT_TYPE_NAMES[$defects[$i]] ?>
+                                    <?= key_exists($defects[$i], DEFECT_TYPE_NAMES) ? DEFECT_TYPE_NAMES[$defects[$i]] : "Другое" ?>
                                 </td>
                                 <td>
                                     <input type="hidden" name="<?= QUANTITY.'_'.$i ?>" value="<?= key_exists($i, $quantities) ? $quantities[$i] : '' ?>" />
@@ -293,7 +308,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                     <?= (key_exists($i, $percents) && !empty($percents[$i])) ? $percents[$i].' %' : '' ?>
                                 </td>
                                 <td>
-                                    <button type="submit" class="btn btn-sm btn-light" style="font-size: xx-large;" name="remove_defect" value="<?=$i ?>">×</button>
+                                    <button type="submit" class="btn btn-sm btn-link" style="font-size: xx-large;" name="remove_defect" value="<?=$i ?>">×</button>
                                 </td>
                             </tr>
                             <?php endwhile; ?>
