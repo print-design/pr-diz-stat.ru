@@ -289,7 +289,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                 </td>
                                 <td>
                                     <input type="hidden" name="<?= PERCENT.'_'.$i ?>" value="<?= key_exists($i, $percents) ? $percents[$i] : '' ?>" />
-                                    <?= key_exists($i, $percents) ? $percents[$i].' %' : '' ?>
+                                    <?= (key_exists($i, $percents) && !empty($percents[$i])) ? $percents[$i].' %' : '' ?>
                                 </td>
                                 <td></td>
                             </tr>
