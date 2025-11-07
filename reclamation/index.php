@@ -60,7 +60,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                     $sql = "select r.id, r.date, r.calculation_id, c.name calculation, r.in_print, r.in_lamination, r.in_cut, r.comment, "
                             . "c.name reclamation, c.customer_id, "
                             . "(select count(id) from calculation where customer_id = c.customer_id and id <= c.id) as num_for_customer, "
-                            . "(select group_concat(concat(defect_type, '-', quantity, '-', unit, '-', percent) separator '*') from reclamation_defect where reclamation_id = r.id group by reclamation_id) as defects "
+                            . "(select group_concat(concat(defect_type, '-', quantity, '-', unit, '-', ifnull(percent, '')) separator '*') from reclamation_defect where reclamation_id = r.id group by reclamation_id) as defects "
                             . "from reclamation r "
                             . "inner join calculation c on r.calculation_id = c.id "
                             . "order by r.id desc limit $pager_skip, $pager_take";

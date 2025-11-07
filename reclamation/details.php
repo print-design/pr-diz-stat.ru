@@ -107,7 +107,7 @@ if($row = $fetcher->Fetch()) {
                         <tr>
                             <td><?= DEFECT_TYPE_NAMES[$row['defect_type']] ?></td>
                             <td><?=$row['quantity'].' '. UNIT_NAMES[$row['unit']] ?></td>
-                            <td><?=$row['percent'].'%' ?></td>
+                            <td><?= empty($row['percent']) ? '' : $row['percent'].'%' ?></td>
                         </tr>
                         <?php endwhile; ?>
                     </table>
