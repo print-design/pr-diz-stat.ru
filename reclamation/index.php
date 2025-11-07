@@ -59,7 +59,8 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                     <?php
                     $sql = "select r.id, r.date, r.calculation_id, c.name calculation, r.in_print, r.in_lamination, r.in_cut, r.comment, "
                             . "c.name reclamation, c.customer_id, "
-                            . "(select count(id) from calculation where customer_id = c.customer_id and id <= c.id) as num_for_customer "
+                            . "(select count(id) from calculation where customer_id = c.customer_id and id <= c.id) as num_for_customer, "
+                            . "(select group_concat(concat(defect_type, '-', quantity, '-', unit, '-', percent) separator '*') from reclamation_defect where reclamation_id = r.id group by reclamation_id) as defects "
                             . "from reclamation r "
                             . "inner join calculation c on r.calculation_id = c.id "
                             . "order by r.id desc limit $pager_skip, $pager_take";
@@ -71,7 +72,18 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                         <td class="text-nowrap"><?=DateTime::createFromFormat('Y-m-d H:i:s', $row['date'])->format('d.m.Y H:i') ?></td>
                         <td><?=$row['customer_id'].'-'.$row['num_for_customer'] ?></td>
                         <td><?=$row['calculation'] ?></td>
-                        <td></td>
+                        <td>
+                            <?php
+                            $defects = explode('*', $row['defects']);
+                            $new_rows = array();
+                            foreach($defects as $defect) {
+                                $substrings = explode('-', $defect);
+                                array_push($new_rows, (empty($substrings[0]) ? '' : DEFECT_TYPE_NAMES[$substrings[0]].' '.$substrings[1].' '.UNIT_NAMES[$substrings[2]]).(empty($substrings[3]) ? '' : ' ('.$substrings[3].'%)'));
+                            }
+                            
+                            echo implode('<br />', $new_rows);
+                            ?>
+                        </td>
                         <td><?= $row['in_print'] == 1 ? "На печати" : "" ?></td>
                         <td><?= $row['in_lamination'] == 1 ? "На ламинации" : "" ?></td>
                         <td><?= $row['in_cut'] == 1 ? "На резке" : "" ?></td>
