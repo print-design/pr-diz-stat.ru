@@ -291,7 +291,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <input type="hidden" name="calculation_id" value="<?=$calculation_id ?>" />
                         <div class="name">Заказчик: <?=$customer ?></div>
                         <div class="name">Наименование: <?=$calculation ?></div>
-                        <div class="subtitle">№ расчёта: <?=$customer_id.'-'.$num_for_customer ?> от <?= DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y') ?></div>
+                        <div class="subtitle">№ заказа: <?=$customer_id.'-'.$num_for_customer ?> от <?= DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y') ?></div>
                         <hr />
                         <h2>Дефекты</h2>
                         <table class="table">
