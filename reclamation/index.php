@@ -74,7 +74,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                         <td><?=$row['calculation'] ?></td>
                         <td>
                             <?php
-                            $defects = explode('*', $row['defects']);
+                            $defects = explode('*', $row['defects'] ?? '');
                             $new_rows = array();
                             foreach($defects as $defect) {
                                 $substrings = explode('-', $defect);
