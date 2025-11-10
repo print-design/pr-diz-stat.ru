@@ -140,7 +140,7 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
                 $unit = key_exists($key, $units) ? $units[$key] : '';
                 $percent = key_exists($key, $percents) ? $percents[$key] : 'NULL';
                 if(empty($percent)) { $percent = "NULL"; }
-                $sql = "insert into reclamation_defect (reclamation_id, defect_type, quantity, unit, percent) values ($insert_id, $defect, $quantity, '$unit', $percent)";
+                $sql = "insert into reclamation_defect (reclamation_id, defect_type, quantity, unit, percent) values ($insert_id, $defect, $quantity, '$unit', $percent)"; echo $sql;
                 $executer = new Executer($sql);
                 $error_message = $executer->error;
             }
@@ -240,8 +240,6 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                     <?php foreach(DEFECT_TYPES as $item): ?>
                                     <option value="<?=$item ?>"><?= DEFECT_TYPE_NAMES[$item] ?></option>
                                     <?php endforeach; ?>
-                                    <option disabled="disabled"> </option>
-                                    <option value="">Другое</option>
                                 </select>
                             </div>
                             <div class="row">
