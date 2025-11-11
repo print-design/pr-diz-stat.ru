@@ -235,12 +235,16 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="<?= DEFECT ?>">Тип рекламации</label>
-                                <select id="<?= DEFECT ?>" name="<?= DEFECT ?>" class="form-control" required="required">
+                                <select id="<?= DEFECT ?>" name="<?= DEFECT ?>" class="form-control" required="required" onchange="javascript: if($(this).val() === '<?= DEFECT_TYPE_OTHER ?>') { $('#other_defect_type_group').removeClass('d-none'); $('#other_defect_type').attr('required', 'required'); } else { $('#other_defect_type_group').addClass('d-none'); $('#other_defect_type').removeAttr('required'); }">
                                     <option value="" hidden="hidden">...</option>
                                     <?php foreach(DEFECT_TYPES as $item): ?>
                                     <option value="<?=$item ?>"><?= DEFECT_TYPE_NAMES[$item] ?></option>
                                     <?php endforeach; ?>
                                 </select>
+                            </div>
+                            <div class="form-group d-none" id="other_defect_type_group">
+                                <label for="other_defect_type">Другой тип рекламации</label>
+                                <input type="text" name="other_defect_type" id="other_defect_type" class="form-control" />
                             </div>
                             <div class="row">
                                 <div class="form-group col-6">
