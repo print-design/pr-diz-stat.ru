@@ -319,6 +319,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                             <tr>
                                 <td>
                                     <input type="hidden" name="<?= DEFECT.'_'.$i ?>" value="<?=$defects[$i] ?>" />
+                                    <input type="hidden" name="<?= OTHER.'_'.$i ?>" value="<?= key_exists($i, $others) ? $others[$i] : '' ?>" />
                                     <?= ($defects[$i] == DEFECT_TYPE_OTHER && key_exists($i, $others)) ? $others[$i] : (key_exists($defects[$i], DEFECT_TYPE_NAMES) ? DEFECT_TYPE_NAMES[$defects[$i]] : "Другое") ?>
                                 </td>
                                 <td>
