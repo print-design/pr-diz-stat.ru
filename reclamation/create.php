@@ -173,10 +173,6 @@ if($row = $fetcher->Fetch()) {
     $num_for_customer = $row['num_for_customer'];
 }
 
-$defect_type = filter_input(INPUT_POST, "defect_type");
-$quantity = filter_input(INPUT_POST, 'quantity');
-$unit = filter_input(INPUT_POST, 'unit');
-$percent = filter_input(INPUT_POST, 'percent');
 if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
 if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
 if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
