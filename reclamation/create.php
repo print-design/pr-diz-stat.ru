@@ -19,11 +19,13 @@ $error_message = '';
 $calculation_id_valid = '';
 
 const DEFECT = "defect";
+const OTHER = "other";
 const QUANTITY = "quantity";
 const UNIT = "unit";
 const PERCENT = "percent";
 
 $defects = array();
+$others = array();
 $quantities = array();
 $units = array();
 $percents = array();
@@ -37,6 +39,9 @@ foreach($_POST as $key => $value) {
         switch($substrings[0]) {
             case DEFECT:
                 $defects[++$i] = $value;
+                break;
+            case OTHER:
+                $others[$i] = $value;
                 break;
             case QUANTITY:
                 $quantities[$i] = $value;
@@ -56,6 +61,7 @@ while (key_exists(++$i, $defects)) { }
 $defect = filter_input(INPUT_POST, DEFECT);
 if(null !== $defect) {
     $defects[$i] = $defect;
+    $others[$i] = filter_input(INPUT_POST, OTHER);
     $quantities[$i] = filter_input(INPUT_POST, QUANTITY);
     $units[$i] = filter_input(INPUT_POST, UNIT);
     $percents[$i] = filter_input(INPUT_POST, PERCENT);
@@ -71,6 +77,7 @@ $remove_defect = filter_input(INPUT_POST, 'remove_defect');
 
 if(null !== $remove_defect) {
     $defects = array();
+    $others = array();
     $quantities = array();
     $units = array();
     $percents = array();
@@ -84,6 +91,9 @@ if(null !== $remove_defect) {
             switch ($substrings[0]) {
                 case DEFECT:
                     $defects[++$i] = $value;
+                    break;
+                case OTHER:
+                    $others[$i] = $value;
                     break;
                 case QUANTITY:
                     $quantities[$i] = $value;
@@ -136,11 +146,12 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
         if(empty($error_message) && !empty($insert_id)) {
             foreach ($defects as $key => $value) {
                 $defect = $value;
+                $other = key_exists($key, $others) ? $others[$key] : '';
                 $quantity = key_exists($key, $quantities) ? $quantities[$key] : 0;
                 $unit = key_exists($key, $units) ? $units[$key] : '';
                 $percent = key_exists($key, $percents) ? $percents[$key] : 'NULL';
                 if(empty($percent)) { $percent = "NULL"; }
-                $sql = "insert into reclamation_defect (reclamation_id, defect_type, quantity, unit, percent) values ($insert_id, $defect, $quantity, '$unit', $percent)"; echo $sql;
+                $sql = "insert into reclamation_defect (reclamation_id, defect_type, other_defect_type, quantity, unit, percent) values ($insert_id, $defect, '$other', $quantity, '$unit', $percent)"; echo $sql;
                 $executer = new Executer($sql);
                 $error_message = $executer->error;
             }
@@ -216,6 +227,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         while(key_exists(++$i, $defects)):
                         ?>
                         <input type="hidden" name="<?= DEFECT.'_'.$i ?>" value="<?=$defects[$i] ?>" />
+                        <input type="hidden" name="<?= OTHER.'_'.$i ?>" value="<?= key_exists($i, $others) ? $others[$i] : '' ?>" />
                         <input type="hidden" name="<?= QUANTITY.'_'.$i ?>" value="<?= key_exists($i, $quantities) ? $quantities[$i] : '' ?>" />
                         <input type="hidden" name="<?= UNIT.'_'.$i ?>" value="<?= key_exists($i, $units) ? $units[$i] : '' ?>" />
                         <input type="hidden" name="<?= PERCENT.'_'.$i ?>" value="<?= key_exists($i, $percents) ? $percents[$i] : '' ?>" />
@@ -231,7 +243,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="<?= DEFECT ?>">Тип рекламации</label>
-                                <select id="<?= DEFECT ?>" name="<?= DEFECT ?>" class="form-control" required="required" onchange="javascript: if($(this).val() === '<?= DEFECT_TYPE_OTHER ?>') { $('#other_defect_type_group').removeClass('d-none'); $('#other_defect_type').attr('required', 'required'); } else { $('#other_defect_type_group').addClass('d-none'); $('#other_defect_type').removeAttr('required'); }">
+                                <select id="<?= DEFECT ?>" name="<?= DEFECT ?>" class="form-control" required="required" onchange="javascript: if($(this).val() === '<?= DEFECT_TYPE_OTHER ?>') { $('#other_defect_type_group').removeClass('d-none'); $('#other_defect_type').attr('required', 'required'); $('#other_defect_type').focus(); } else { $('#other_defect_type_group').addClass('d-none'); $('#other_defect_type').removeAttr('required'); }">
                                     <option value="" hidden="hidden">...</option>
                                     <?php foreach(DEFECT_TYPES as $item): ?>
                                     <option value="<?=$item ?>"><?= DEFECT_TYPE_NAMES[$item] ?></option>
@@ -239,8 +251,8 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                 </select>
                             </div>
                             <div class="form-group d-none" id="other_defect_type_group">
-                                <label for="other_defect_type">Другой тип рекламации</label>
-                                <input type="text" name="other_defect_type" id="other_defect_type" class="form-control" />
+                                <label for="<?= OTHER ?>">Другой тип рекламации</label>
+                                <input type="text" name="<?= OTHER ?>" id="other_defect_type" class="form-control" />
                             </div>
                             <div class="row">
                                 <div class="form-group col-6">
@@ -307,7 +319,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                             <tr>
                                 <td>
                                     <input type="hidden" name="<?= DEFECT.'_'.$i ?>" value="<?=$defects[$i] ?>" />
-                                    <?= key_exists($defects[$i], DEFECT_TYPE_NAMES) ? DEFECT_TYPE_NAMES[$defects[$i]] : "Другое" ?>
+                                    <?= ($defects[$i] == DEFECT_TYPE_OTHER && key_exists($i, $others)) ? $others[$i] : (key_exists($defects[$i], DEFECT_TYPE_NAMES) ? DEFECT_TYPE_NAMES[$defects[$i]] : "Другое") ?>
                                 </td>
                                 <td>
                                     <input type="hidden" name="<?= QUANTITY.'_'.$i ?>" value="<?= key_exists($i, $quantities) ? $quantities[$i] : '' ?>" />
