@@ -151,7 +151,7 @@ if(null !== filter_input(INPUT_POST, 'reclamation_create_submit')) {
                 $unit = key_exists($key, $units) ? $units[$key] : '';
                 $percent = key_exists($key, $percents) ? $percents[$key] : 'NULL';
                 if(empty($percent)) { $percent = "NULL"; }
-                $sql = "insert into reclamation_defect (reclamation_id, defect_type, other_defect_type, quantity, unit, percent) values ($insert_id, $defect, '$other', $quantity, '$unit', $percent)"; echo $sql;
+                $sql = "insert into reclamation_defect (reclamation_id, defect_type, other_defect_type, quantity, unit, percent) values ($insert_id, $defect, '$other', $quantity, '$unit', $percent)";
                 $executer = new Executer($sql);
                 $error_message = $executer->error;
             }
