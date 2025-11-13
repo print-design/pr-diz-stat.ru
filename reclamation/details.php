@@ -20,10 +20,6 @@ $calculation = "";
 $customer_id = 0;
 $customer = "";
 $num_for_customer = 0;
-$defect_type = 0;
-$quantity = 0;
-$unit = "";
-$percent = 0;
 $in_print = 0;
 $in_lamination = 0;
 $in_cut = 0;
@@ -100,12 +96,12 @@ if($row = $fetcher->Fetch()) {
                             <th>%</th>
                         </tr>
                         <?php
-                        $sql = "select defect_type, quantity, unit, percent from reclamation_defect where reclamation_id = $id";
+                        $sql = "select defect_type, other_defect_type, quantity, unit, percent from reclamation_defect where reclamation_id = $id";
                         $fetcher = new Fetcher($sql);
                         while($row = $fetcher->Fetch()):
                         ?>
                         <tr>
-                            <td><?= DEFECT_TYPE_NAMES[$row['defect_type']] ?></td>
+                            <td><?= $row['defect_type'] == DEFECT_TYPE_OTHER ? $row['other_defect_type'] : (key_exists($row['defect_type'], DEFECT_TYPE_NAMES) ? DEFECT_TYPE_NAMES[$row['defect_type']] : $row['defect_type']) ?></td>
                             <td><?=$row['quantity'].' '. UNIT_NAMES[$row['unit']] ?></td>
                             <td><?= empty($row['percent']) ? '' : $row['percent'].'%' ?></td>
                         </tr>
