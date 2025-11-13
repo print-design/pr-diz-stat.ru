@@ -6,7 +6,7 @@ if(!empty(filter_input(INPUT_COOKIE, USERNAME))):
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="padding: 0; padding-bottom: 0 !important;"><span class="text-nowrap" id="top_user_name" style="color: #EC3A7A;"><?= filter_input(INPUT_COOKIE, LAST_NAME).' '.filter_input(INPUT_COOKIE, FIRST_NAME) ?></span></a>
         <div id="nav-role" class="text-nowrap"><?= filter_input(INPUT_COOKIE, ROLE_LOCAL) ?></div>
         <div class="dropdown-menu" id="user-dropdown">
-            <a href="<?=APPLICATION ?>/personal/" class="btn btn-link dropdown-item d-none"><i class="fas fa-user"></i>&nbsp;Мои настройки</a>
+            <a href="<?=APPLICATION ?>/personal/" class="btn btn-link dropdown-item"><i class="fas fa-user"></i>&nbsp;Мои настройки</a>
             <form method="post">
                 <button type="submit" class="btn btn-link dropdown-item" id="logout_submit" name="logout_submit"><i class="fas fa-sign-out-alt"></i>&nbsp;Выход</button>
             </form>
