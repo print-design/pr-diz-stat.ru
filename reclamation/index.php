@@ -15,7 +15,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
     </head>
     <body>
         <?php
-        include '../include/header.php';
+        include '../include/header_stat.php';
         include '../include/pager_top.php';
         $rowcounter = 0;
         ?>

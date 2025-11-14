@@ -73,7 +73,7 @@ if($row = $fetcher->Fetch()) {
     </head>
     <body>
         <?php
-        include '../include/header.php';
+        include '../include/header_stat.php';
         ?>
         <div class="container-fluid">
             <?php

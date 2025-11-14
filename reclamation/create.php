@@ -215,7 +215,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
     </head>
     <body>
         <?php
-        include '../include/header.php';
+        include '../include/header_stat.php';
         ?>
         <div id="add_defect" class="modal fade show">
             <div class="modal-dialog">
