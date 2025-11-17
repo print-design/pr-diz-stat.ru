@@ -19,12 +19,14 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
         ?>
         <div class="container-fluid">
             <?php
+            include '../include/subheader_stat.php';
+            
             if(!empty($error_message)) {
                 echo "<div class='alert alert-danger'>$error_message</div>";
             }
             ?>
             <div class="d-flex justify-content-start">
-                <h1>Статистика</h1>
+                <h1>Статистика по заказчику</h1>
             </div>
         </div>
         <?php

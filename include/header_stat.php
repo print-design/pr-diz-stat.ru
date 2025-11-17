@@ -18,7 +18,7 @@ $stat_status = '';
 if($file == 'index.php') {
     $list_status = ' disabled';
 }
-elseif ($file == 'stat.php') {
+elseif ($folder == 'stat') {
     $stat_status = ' disabled';
 }
 ?>
@@ -29,7 +29,7 @@ elseif ($file == 'stat.php') {
                 <a class="nav-link<?=$list_status ?>" href="<?= APPLICATION ?>/reclamation/">Список</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link<?=$stat_status ?>" href="<?= APPLICATION ?>/reclamation/stat.php">Статистика</a>
+                <a class="nav-link<?=$stat_status ?>" href="<?= APPLICATION ?>/stat/customer.php">Статистика</a>
             </li>
         </ul>
         <?php
