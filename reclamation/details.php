@@ -116,6 +116,60 @@ if($row = $fetcher->Fetch()) {
                     <br />
                     <p><?=$comment ?></p>
                 </div>
+                <div class="col-12 col-lg-4">
+                    <?php
+                    $sql = "select ped.date, ped.shift, ped.work_id "
+                            . "from plan_edition ped "
+                            . "where ped.calculation_id = $calculation_id";
+                    $grabber = new Grabber($sql);
+                    $editions = $grabber->result;
+                    ?>
+                    <h2>Печатники</h2>
+                    <table class="table">
+                        <?php
+                        foreach ($editions as $edition):
+                        if($edition['work_id'] == WORK_PRINTING):
+                        ?>
+                        <tr>
+                            <td><?=DateTime::createFromFormat('Y-m-d', $edition['date'])->format('d.m.Y') ?></td>
+                            <td><?= SHIFT_NAMES[$edition['shift']] ?></td>
+                        </tr>
+                        <?php
+                        endif;
+                        endforeach;
+                        ?>
+                    </table>
+                    <h2>Ламинаторщики</h2>
+                    <table class="table">
+                        <?php
+                        foreach ($editions as $edition):
+                        if($edition['work_id'] == WORK_LAMINATION):
+                        ?>
+                        <tr>
+                            <td><?=DateTime::createFromFormat('Y-m-d', $edition['date'])->format('d.m.Y') ?></td>
+                            <td><?= SHIFT_NAMES[$edition['shift']] ?></td>
+                        </tr>
+                        <?php
+                        endif;
+                        endforeach;
+                        ?>
+                    </table>
+                    <h2>Резчики</h2>
+                    <table class="table">
+                        <?php
+                        foreach($editions as $edition):
+                        if($edition['work_id'] == WORK_CUTTING):
+                        ?>
+                        <tr>
+                            <td><?=DateTime::createFromFormat('Y-m-d', $edition['date'])->format('d.m.Y') ?></td>
+                            <td><?= SHIFT_NAMES[$edition['shift']] ?></td>
+                        </tr>
+                        <?php
+                        endif;
+                        endforeach;
+                        ?>
+                    </table>
+                </div>
             </div>
         </div>
         <?php

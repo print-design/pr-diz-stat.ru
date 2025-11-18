@@ -154,6 +154,12 @@ const WORKS = array(WORK_PRINTING, WORK_LAMINATION, WORK_CUTTING);
 const WORK_NAMES = array(WORK_PRINTING => "Печать", WORK_LAMINATION => "Ламинация", WORK_CUTTING => "Резка");
 const WORK_CONTINUATIONS = array(WORK_PRINTING => "Допечатка", WORK_LAMINATION => "Доламинирование", WORK_CUTTING => "Дорезка");
 
+// Дневные или ночные смены
+const SHIFT_DAY = "day";
+const SHIFT_NIGHT = "night";
+const SHIFTS = array(SHIFT_DAY, SHIFT_NIGHT);
+const SHIFT_NAMES = array(SHIFT_DAY => "День", SHIFT_NIGHT => "Ночь");
+
 // Роли плана
 const PLAN_ROLE_PRINT = 1;
 const PLAN_ROLE_ASSISTANT = 2;
