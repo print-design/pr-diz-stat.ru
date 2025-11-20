@@ -127,7 +127,7 @@ if($row = $fetcher->Fetch()) {
                     $grabber = new Grabber($sql);
                     $editions = $grabber->result;
                     ?>
-                    <h2>Печатники</h2>
+                    <h2>Печать</h2>
                     <table class="table">
                         <?php
                         foreach ($editions as $edition):
@@ -144,7 +144,7 @@ if($row = $fetcher->Fetch()) {
                         endforeach;
                         ?>
                     </table>
-                    <h2>Ламинаторщики</h2>
+                    <h2>Ламинация</h2>
                     <table class="table">
                         <?php
                         foreach ($editions as $edition):
@@ -161,7 +161,7 @@ if($row = $fetcher->Fetch()) {
                         endforeach;
                         ?>
                     </table>
-                    <h2>Резчики</h2>
+                    <h2>Резка</h2>
                     <table class="table">
                         <?php
                         foreach($editions as $edition):
