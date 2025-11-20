@@ -118,9 +118,12 @@ if($row = $fetcher->Fetch()) {
                 </div>
                 <div class="col-12 col-lg-4">
                     <?php
-                    $sql = "select ped.date, ped.shift, ped.work_id "
-                            . "from plan_edition ped "
-                            . "where ped.calculation_id = $calculation_id";
+                    $sql = "select ped.date, ped.shift, ped.work_id, ped.machine_id, pe.last_name, pe.first_name "
+                            . "from plan_edition ped, "
+                            . "plan_workshift1 pw1 "
+                            . "inner join plan_employee pe on pw1.employee1_id = pe.id "
+                            . "where pw1.date = ped.date and pw1.shift = ped.shift and pw1.work_id = ped.work_id and pw1.machine_id = ped.machine_id "
+                            . "and ped.calculation_id = $calculation_id";
                     $grabber = new Grabber($sql);
                     $editions = $grabber->result;
                     ?>
@@ -133,6 +136,8 @@ if($row = $fetcher->Fetch()) {
                         <tr>
                             <td><?=DateTime::createFromFormat('Y-m-d', $edition['date'])->format('d.m.Y') ?></td>
                             <td><?= SHIFT_NAMES[$edition['shift']] ?></td>
+                            <td><?= PRINTER_NAMES[$edition['machine_id']] ?></td>
+                            <td><?=$edition['last_name'].' '.$edition['first_name'] ?></td>
                         </tr>
                         <?php
                         endif;
@@ -148,6 +153,8 @@ if($row = $fetcher->Fetch()) {
                         <tr>
                             <td><?=DateTime::createFromFormat('Y-m-d', $edition['date'])->format('d.m.Y') ?></td>
                             <td><?= SHIFT_NAMES[$edition['shift']] ?></td>
+                            <td><?= LAMINATOR_NAMES[$edition['machine_id']] ?></td>
+                            <td><?=$edition['last_name'].' '.$edition['first_name'] ?></td>
                         </tr>
                         <?php
                         endif;
@@ -163,6 +170,8 @@ if($row = $fetcher->Fetch()) {
                         <tr>
                             <td><?=DateTime::createFromFormat('Y-m-d', $edition['date'])->format('d.m.Y') ?></td>
                             <td><?= SHIFT_NAMES[$edition['shift']] ?></td>
+                            <td><?= CUTTER_NAMES[$edition['machine_id']] ?></td>
+                            <td><?=$edition['last_name'].' '.$edition['first_name'] ?></td>
                         </tr>
                         <?php
                         endif;
