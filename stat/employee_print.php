@@ -46,6 +46,10 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                                 . "inner join reclamation r on r.calculation_id = c.id "
                                 . "group by cus.id "
                                 . "order by total desc";
+                            /*
+                             * select c.name calculation, count(r.id) total, count(r.id) / (select count(id) from reclamation) * 100 percent from calculation c inner join reclamation r on r.calculation_id = c.id group by c.id order by total desc
+                             * 
+                             */
                             $fetcher = new Fetcher($sql);
                             
                             while($row = $fetcher->Fetch()):
