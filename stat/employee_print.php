@@ -40,8 +40,22 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_MANAGER], ROLE
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "";
+                            $sql = "select cus.name customer, count(r.id) total, count(r.id) / (select count(id) from reclamation) * 100 percent "
+                                . "from customer cus "
+                                . "inner join calculation c on c.customer_id = cus.id "
+                                . "inner join reclamation r on r.calculation_id = c.id "
+                                . "group by cus.id "
+                                . "order by total desc";
+                            $fetcher = new Fetcher($sql);
+                            
+                            while($row = $fetcher->Fetch()):
                             ?>
+                            <tr>
+                                <td><?=$row['customer'] ?></td>
+                                <td><?=$row['total'] ?></td>
+                                <td class="text-right"><?= DisplayNumber(floatval($row['percent']), 2) ?>%</td>
+                            </tr>
+                            <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
