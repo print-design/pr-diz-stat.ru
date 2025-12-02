@@ -263,6 +263,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                             <select id="<?= UNIT ?>" name="<?= UNIT ?>" required="required">
                                                 <option value="" hidden="hidden">...</option>
                                                 <option value="<?= UNIT_M ?>"><?= UNIT_NAMES[UNIT_M] ?></option>
+                                                <option value="<?= UNIT_KG ?>"><?= UNIT_NAMES[UNIT_KG] ?></option>
                                                 <option value="<?= UNIT_PC ?>"><?= UNIT_NAMES[UNIT_PC] ?></option>
                                             </select>
                                         </div>

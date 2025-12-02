@@ -223,8 +223,9 @@ const DEFECT_TYPE_NAMES = array(DEFECT_TYPE_DELAMINATION => "Деламинац�
 
 // Единицы измерения
 const UNIT_M = "m";
+const UNIT_KG = "kg";
 const UNIT_PC = "pc";
-const UNIT_NAMES = array(UNIT_M => "м", UNIT_PC => "шт");
+const UNIT_NAMES = array(UNIT_M => "м", UNIT_KG => "кг", UNIT_PC => "шт");
 
 // Другое
 const ISINVALID = ' is-invalid';
