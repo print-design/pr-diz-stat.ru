@@ -2,8 +2,19 @@
 include '../include/topscripts.php';
 
 // Авторизация
-if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_CUTTER]))) {
+if(!LoggedIn()) {
     header('Location: '.APPLICATION.'/unauthorized.php');
+}
+
+// Валидация формы
+$form_valid = true;
+$error_message = '';
+
+// Обработка отправки формы
+if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
+    $title = addslashes(filter_input(INPUT_POST, 'title'));
+    $body = addslashes(filter_input(INPUT_POST, 'body'));
+    $effect = addslashes(filter_input(INPUT_POST, 'effect'));
 }
 ?>
 <!DOCTYPE html>
@@ -45,7 +56,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_CUTTER]))) {
                     <label for="effect">Что изменится в результате улучшения</label>
                     <textarea class="form-control" name="effect" rows="4"></textarea>
                 </div>
-                <button type="submit" class="btn btn-dark">Подать</button>
+                <button type="submit" class="btn btn-dark" id="improvement_create_submit" name="improvement_create_submit">Подать</button>
             </form>
         </div>
         <?php
