@@ -6,6 +6,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_CUTTER]))) {
     header('Location: '.APPLICATION.'/unauthorized.php');
 }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <?php
@@ -41,7 +42,7 @@ if(!IsInRole(array(ROLE_NAMES[ROLE_TECHNOLOGIST], ROLE_NAMES[ROLE_CUTTER]))) {
                     <textarea class="form-control" name="body" rows="4" required="required"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="body">Что изменится в результате улучшения</label>
+                    <label for="effect">Что изменится в результате улучшения</label>
                     <textarea class="form-control" name="effect" rows="4"></textarea>
                 </div>
                 <button type="submit" class="btn btn-dark">Подать</button>

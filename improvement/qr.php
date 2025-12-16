@@ -2,6 +2,7 @@
 require '../vendor/autoload.php';
 use chillerlan\QRCode\QRCode;
 ?>
+<!DOCTYPE html>
 <html>
     <body>
         <?php
