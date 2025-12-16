@@ -10,11 +10,36 @@ if(!LoggedIn()) {
 $form_valid = true;
 $error_message = '';
 
+$title_valid = '';
+$body_valid = '';
+
 // Обработка отправки формы
 if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
-    $title = addslashes(filter_input(INPUT_POST, 'title'));
-    $body = addslashes(filter_input(INPUT_POST, 'body'));
-    $effect = addslashes(filter_input(INPUT_POST, 'effect'));
+    $user_id = GetUserId();
+    
+    $title = filter_input(INPUT_POST, 'title');
+    if(empty($title)) {
+        $title_valid = ISINVALID;
+        $form_valid = false;
+    }
+    
+    $body = filter_input(INPUT_POST, 'body');
+    if(empty($body)) {
+        $body_valid = ISINVALID;
+        $form_valid = false;
+    }
+    
+    $effect = filter_input(INPUT_POST, 'effect');
+    
+    if($form_valid) {
+        $title = addslashes($title);
+        $body = addslashes($body);
+        $effect = addslashes($effect);
+        
+        $sql = "insert into improvement (id, user_id, role_id, title, body, effect) values ($user_id, (select role_id from user where id = $user_id), '$title', '$body', '$effect')";
+        $executer = new Executer($sql);
+        $error_message = $executer->error;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -42,15 +67,27 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
         </div>
         <div id="topmost"></div>
         <div class="container-fluid">
+            <?php
+            if(!empty($error_message)) {
+                echo "<div class='alert alert-danger'>$error_message</div>";
+            }
+            
+            if(null !== filter_input(INPUT_POST, 'improvement_create_submit') && empty($error_message)):
+            ?>
+            <h1>Ваше предложение отправлено</h1>
+            <a href="create.php" class="btn btn-dark" title="OK">OK</a>
+            <?php else: ?>
             <h1>Предложение по улучшению</h1>
             <form method="post">
                 <div class="form-group">
                     <label for="title">Заголовок</label>
                     <input type="text" class="form-control" name="title" required="required" />
+                    <div class="invalid-feedback">Заголовок обязательно</div>
                 </div>
                 <div class="form-group">
                     <label for="body">Текст предложения</label>
                     <textarea class="form-control" name="body" rows="4" required="required"></textarea>
+                    <div class="invalid-feedback">Текст предложения обязательно</div>
                 </div>
                 <div class="form-group">
                     <label for="effect">Что изменится в результате улучшения</label>
@@ -58,6 +95,7 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
                 </div>
                 <button type="submit" class="btn btn-dark" id="improvement_create_submit" name="improvement_create_submit">Подать</button>
             </form>
+            <?php endif; ?>
         </div>
         <?php
         include '../include/footer.php';
