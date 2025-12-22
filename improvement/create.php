@@ -101,6 +101,9 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
                     <label for="effect">Что изменится в результате улучшения</label>
                     <textarea class="form-control" name="effect" rows="4"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="reason"></label>
+                </div>
                 <button type="submit" class="btn btn-dark" id="improvement_create_submit" name="improvement_create_submit">Подать</button>
             </form>
             <?php endif; ?>
