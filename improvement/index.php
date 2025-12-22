@@ -2,13 +2,8 @@
 include '../include/topscripts.php';
 
 // Авторизация
-if(LoggedIn()) {
-    if(!IsInRole(array(ROLE_NAMES[ROLE_MANAGER_SENIOR]))) {
-        header('Location: create.php');
-    }
-}
-else {
-    header('Location: '.APPLICATION.'/unauthorized.php');
+if(!IsInRole(array(ROLE_NAMES[ROLE_MANAGER_SENIOR]))) {
+    header('Location: create.php');
 }
 ?>
 <!DOCTYPE html>

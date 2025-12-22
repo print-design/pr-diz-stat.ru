@@ -1,11 +1,6 @@
 <?php
 include '../include/topscripts.php';
 
-// Авторизация
-if(!LoggedIn()) {
-    header('Location: '.APPLICATION.'/unauthorized.php');
-}
-
 // Валидация формы
 $form_valid = true;
 $error_message = '';
@@ -79,6 +74,19 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
             <?php else: ?>
             <h1>Предложение по улучшению</h1>
             <form method="post">
+                <div class="form-group">
+                    <label for="employee_id">Сотрудник</label>
+                    <select class="form-control" name="employee_id" required="required">
+                        <option value="" hidden="hidden">...</option>
+                        <?php
+                        $sql = "select id, last_name, first_name from user order by last_name, first_name";
+                        $fetcher = new Fetcher($sql);
+                        while($row = $fetcher->Fetch()):
+                        ?>
+                        <option value="<?=$row['id'] ?>"><?=$row['last_name'].' '.$row['first_name'] ?></option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="title">Заголовок</label>
                     <input type="text" class="form-control" name="title" required="required" />
