@@ -47,6 +47,7 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
         <?php
         include '../include/style_mobile.php';
         ?>
+        <link href="<?=APPLICATION ?>/css/select2.min.css" rel="stylesheet"/>
     </head>
     <body>
         <div class="container-fluid header">
@@ -76,14 +77,19 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
             <form method="post">
                 <div class="form-group">
                     <label for="employee_id">Сотрудник</label>
-                    <select class="form-control" name="employee_id" required="required">
+                    <select class="form-control" id="employee_id" name="employee_id" multiple="multiple" required="required">
                         <option value="" hidden="hidden">...</option>
                         <?php
-                        $sql = "select id, last_name, first_name from user order by last_name, first_name";
+                        $sql = "select last_name, first_name "
+                                . "from plan_employee "
+                                . "union "
+                                . "select last_name, first_name "
+                                . "from user "
+                                . "order by last_name, first_name";
                         $fetcher = new Fetcher($sql);
                         while($row = $fetcher->Fetch()):
                         ?>
-                        <option value="<?=$row['id'] ?>"><?=$row['last_name'].' '.$row['first_name'] ?></option>
+                        <option><?=$row['last_name'].' '.$row['first_name'] ?></option>
                         <?php endwhile; ?>
                     </select>
                 </div>
@@ -110,7 +116,16 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
         </div>
         <?php
         include '../include/footer.php';
-        include '../include/footer_mobile.php';
+        //include '../include/footer_mobile.php';
         ?>
+        <script src="<?=APPLICATION ?>/js/select2.min.js"></script>
+        <script src="<?=APPLICATION ?>/js/i18n/ru.js"></script>
+        <script>
+            $('#status').select2({
+                placeholder: "Фамилия, имя...",
+                maximumSelectionLength: 1,
+                language: "ru"
+            });
+        </script>
     </body>
 </html>
