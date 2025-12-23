@@ -116,7 +116,7 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
         </div>
         <?php
         include '../include/footer.php';
-        //include '../include/footer_mobile.php';
+        include '../include/footer_mobile.php';
         ?>
         <script src="<?=APPLICATION ?>/js/select2.min.js"></script>
         <script src="<?=APPLICATION ?>/js/i18n/ru.js"></script>
