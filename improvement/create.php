@@ -121,10 +121,11 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
         <script src="<?=APPLICATION ?>/js/select2.min.js"></script>
         <script src="<?=APPLICATION ?>/js/i18n/ru.js"></script>
         <script>
-            $('#status').select2({
+            $('#employee_id').select2({
                 placeholder: "Фамилия, имя...",
                 maximumSelectionLength: 1,
-                language: "ru"
+                language: "ru",
+                width: "100%"
             });
         </script>
     </body>
