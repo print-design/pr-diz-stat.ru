@@ -1,5 +1,6 @@
 <?php
 include '../include/topscripts.php';
+include './improvement_goals.php';
 
 // Валидация формы
 $form_valid = true;
@@ -108,7 +109,13 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
                     <textarea class="form-control" name="effect" rows="4"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="reason"></label>
+                    <label for="improvement_goal">На что направлено улучшение</label>
+                    <select class="form-control" id="improvement_goal" name="improvement_goal" required="required">
+                        <option value="" hidden="hidden">...</option>
+                        <?php foreach(IMPROVEMENT_GOALS as $item): ?>
+                        <option value="<?=$item ?>"><?= IMPROVEMENT_GOALS_NAMES[$item] ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-dark" id="improvement_create_submit" name="improvement_create_submit">Подать</button>
             </form>
