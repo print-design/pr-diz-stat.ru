@@ -22,7 +22,7 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
         $form_valid = false;
     }
     
-    $substrings = explode('__', $user_name);
+    $substrings = explode('_', $user_name);
     $last_name = '';
     $first_name = '';
     $role = '';
@@ -34,7 +34,7 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
     else {
         $last_name = $substrings[0];
         $first_name = $substrings[1];
-        $role = $substrings[2];
+        $role = mb_substr($user_name, mb_strlen($last_name) + mb_strlen($first_name) + 2);
         
         if(empty($last_name) || empty($first_name) || empty($role)) {
             $user_name_valid = ISINVALID;
@@ -63,13 +63,13 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
     }
     
     if($form_valid) {
-        $title = addslashes($title);
+        /*$title = addslashes($title);
         $body = addslashes($body);
         $effect = addslashes($effect);
         
         $sql = "insert into improvement (last_name, first_name, role, title, body, effect, improvement_goal) values ('$last_name', '$first_name', '$title', '$body', '$effect')";
         $executer = new Executer($sql);
-        $error_message = $executer->error;
+        $error_message = $executer->error;*/
     }
 }
 ?>
