@@ -63,13 +63,13 @@ if(null !== filter_input(INPUT_POST, 'improvement_create_submit')) {
     }
     
     if($form_valid) {
-        /*$title = addslashes($title);
+        $title = addslashes($title);
         $body = addslashes($body);
         $effect = addslashes($effect);
         
-        $sql = "insert into improvement (last_name, first_name, role, title, body, effect, improvement_goal) values ('$last_name', '$first_name', '$title', '$body', '$effect')";
+        $sql = "insert into improvement (last_name, first_name, role, title, body, effect, improvement_goal) values ('$last_name', '$first_name', '$role', '$title', '$body', '$effect', $improvement_goal)";
         $executer = new Executer($sql);
-        $error_message = $executer->error;*/
+        $error_message = $executer->error;
     }
 }
 ?>
