@@ -7,6 +7,31 @@ if(empty($id)) {
     header('Location: '.APPLICATION.'/reclamation/');
 }
 
+// Валидация формы
+$form_valid = true;
+$error_message = '';
+
+$comment_valid = '';
+
+// Редактирование рекламация
+if(null !== filter_input(INPUT_POST, 'edit-submit')) {
+    $id = filter_input(INPUT_POST, 'id');
+    
+    $in_print = 0; if(filter_input(INPUT_POST, 'in_print') == 'on') $in_print = 1;
+    $in_lamination = 0; if(filter_input(INPUT_POST, 'in_lamination') == 'on') $in_lamination = 1;
+    $in_cut = 0; if(filter_input(INPUT_POST, 'in_cut') == 'on') $in_cut = 1;
+    $comment = filter_input(INPUT_POST, 'comment');
+    $comment = addslashes($comment);
+    
+    $sql = "update reclamation set in_print = $in_print, in_lamination = $in_lamination, in_cut = $in_cut, comment = '$comment' where id = $id";
+    $executer = new Executer($sql);
+    $error_message = $executer->error;
+    
+    if(empty($error_message)) {
+        header('Location: details.php'.BuildQuery('id', $id));
+    }
+}
+
 // Получение объекта
 $r_date = "";
 $c_date = "";
@@ -72,12 +97,6 @@ if($row = $fetcher->Fetch()) {
         $comment = $row['comment'];
     }
     $comment = htmlentities($comment);
-    
-    
-    
-    
-    
-    $lamination1_customers_material = 0; if(filter_input(INPUT_POST, 'lamination1_customers_material') == 'on') $lamination1_customers_material = 1;
 }
 ?>
 <!DOCTYPE html>
@@ -142,6 +161,7 @@ if($row = $fetcher->Fetch()) {
                     </table>
                     <h2>Локализация</h2>
                     <form method="post">
+                        <input type="hidden" name="id" value="<?=$id ?>" />
                         <div class="d-flex justify-content-lg-start">
                             <div class="form-check mr-4">
                                 <label class="form-check-label text-nowrap mt-1 mb-4" style="line-height: 25px;">
