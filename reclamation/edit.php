@@ -36,10 +36,48 @@ if($row = $fetcher->Fetch()) {
     $customer_id = $row['customer_id'];
     $customer = $row['customer'];
     $num_for_customer = $row['num_for_customer'];
-    $in_print = $row['in_print'];
-    $in_lamination = $row['in_lamination'];
-    $in_cut = $row['in_cut'];
-    $comment = htmlentities($row['comment']);
+    
+    if(filter_input(INPUT_POST, 'in_print') === null) {
+        $in_print = $row['in_print'];
+    }
+    elseif(filter_input(INPUT_POST, 'in_print') == 'on') {
+        $in_print = 1;
+    }
+    else {
+        $in_print = 0;
+    }
+    
+    if(filter_input(INPUT_POST, 'in_lamination') === null) {
+        $in_lamination = $row['in_lamination'];
+    }
+    elseif(filter_input(INPUT_POST, 'in_lamination') == 'on') {
+        $in_lamination = 1;
+    }
+    else {
+        $in_lamination = 0;
+    }
+    
+    if(filter_input(INPUT_POST, 'in_cut') === null) {
+        $in_cut = $row['in_cut'];
+    }
+    elseif(filter_input(INPUT_POST, 'in_cut') == 'on') {
+        $in_cut = 1;
+    }
+    else {
+        $in_cut = 0;
+    }
+    
+    $comment = filter_input(INPUT_POST, 'comment');
+    if($comment === null && isset($row['comment'])) {
+        $comment = $row['comment'];
+    }
+    $comment = htmlentities($comment);
+    
+    
+    
+    
+    
+    $lamination1_customers_material = 0; if(filter_input(INPUT_POST, 'lamination1_customers_material') == 'on') $lamination1_customers_material = 1;
 }
 ?>
 <!DOCTYPE html>
@@ -103,13 +141,33 @@ if($row = $fetcher->Fetch()) {
                         <?php endwhile; ?>
                     </table>
                     <h2>Локализация</h2>
-                    <div class="d-flex justify-content-lg-start">
-                        <div class="mr-4"><i class="far <?=$in_print ? "fa-check-square" : "fa-square" ?> mr-2"></i>на печати</div>
-                        <div class="mr-4"><i class="far <?=$in_lamination ? "fa-check-square" : "fa-square" ?> mr-2"></i>на ламинации</div>
-                        <div><i class="far <?=$in_cut ? "fa-check-square" : "fa-square" ?> mr-2"></i>на резке</div>
-                    </div>
-                    <br />
-                    <p><?=$comment ?></p>
+                    <form method="post">
+                        <div class="d-flex justify-content-lg-start">
+                            <div class="form-check mr-4">
+                                <label class="form-check-label text-nowrap mt-1 mb-4" style="line-height: 25px;">
+                                    <?php $checked = $in_print == 1 ? " checked='checked'" : ""; ?>
+                                    <input type="checkbox" class="form-check-input" id="in_print" name="in_print" value="on"<?=$checked ?> />на печати
+                                </label>
+                            </div>
+                            <div class="form-check mr-4">
+                                <label class="form-check-label text-nowrap mt-1 mb-4" style="line-height: 25px;">
+                                    <?php $checked = $in_lamination == 1 ? " checked='checked'" : "" ?>
+                                    <input type="checkbox" class="form-check-input" id="in_lamination" name="in_lamination" value="on"<?=$checked ?> />на ламинации
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label text-nowrap mt-1 mb-4" style="line-height: 25px;">
+                                    <?php $checked = $in_cut == 1 ? " checked='checked'" : "" ?>
+                                    <input type="checkbox" class="form-check-input" id="in_cut" name="in_cut" value="on"<?=$checked ?> />на резке
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Комментарий</label>
+                            <textarea name="comment" class="form-control" style="height: 120px;"><?= htmlentities($comment) ?></textarea>
+                        </div>
+                        <button type="submit" id="edit-submit" name="edit-submit" class="btn btn-dark" style="width: 175px;">OK</button>
+                    </form>
                 </div>
             </div>
         </div>
