@@ -333,7 +333,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                                     <?= (key_exists($i, $percents) && !empty($percents[$i])) ? $percents[$i].' %' : '' ?>
                                 </td>
                                 <td>
-                                    <button type="submit" class="btn btn-sm btn-link" style="font-size: xx-large;" name="remove_defect" value="<?=$i ?>">×</button>
+                                    <button type="submit" class="btn btn-sm btn-link" style="font-size: xx-large;" name="remove_defect" value="<?=$i ?>" onclick="return confirm('Действительно удалить?');">×</button>
                                 </td>
                             </tr>
                             <?php endwhile; ?>

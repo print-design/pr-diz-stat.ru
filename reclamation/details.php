@@ -81,7 +81,10 @@ if($row = $fetcher->Fetch()) {
                echo "<div class='alert alert-danger'>$error_message</div>";
             }
             ?>
-            <a class="btn btn-light backlink" href="<?=APPLICATION ?>/reclamation/<?= BuildQueryRemove('id') ?>">К списку</a>
+            <div class="d-flex justify-content-between">
+                <div><a class="btn btn-light backlink" href="<?=APPLICATION ?>/reclamation/<?= BuildQueryRemove('id') ?>">К списку</a></div>
+                <div><a href="edit.php<?= BuildQuery('id', $id) ?>" class="btn btn-dark"><i class="far fa-edit"></i>&nbsp;&nbsp;Редактировать</a></div>
+            </div>
             <div class="name"><?=$r_date ?></div>
             <h1><?= $calculation ?></h1>
             <div class="row">
