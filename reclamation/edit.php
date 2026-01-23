@@ -13,6 +13,12 @@ $error_message = '';
 
 $comment_valid = '';
 
+const DEFECT = "defect";
+const OTHER = "other";
+const QUANTITY = "quantity";
+const UNIT = "unit";
+const PERCENT = "percent";
+
 // Редактирование рекламация
 if(null !== filter_input(INPUT_POST, 'edit-submit')) {
     $id = filter_input(INPUT_POST, 'id');
@@ -127,6 +133,63 @@ if($row = $fetcher->Fetch()) {
         <?php
         include '../include/header_stat.php';
         ?>
+        <div id="add_defect" class="modal fade show">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post">
+                        <input type="hidden" name="scroll" />
+                        <div class="modal-header">
+                            <span class="font-weight-bold" style="font-size: x-large;">Добавить дефект</span>
+                            <button type="button" class="close create_film_variation_dismiss" data-dismiss="modal"><i class="fas fa-times" style="color: #EC3A7A;"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="<?= DEFECT ?>">Тип рекламации</label>
+                                <select id="<?= DEFECT ?>" name="<?= DEFECT ?>" class="form-control" required="required" onchange="javascript: if($(this).val() === '<?= DEFECT_TYPE_OTHER ?>') { $('#other_defect_type_group').removeClass('d-none'); $('#other_defect_type').attr('required', 'required'); $('#other_defect_type').focus(); } else { $('#other_defect_type_group').addClass('d-none'); $('#other_defect_type').removeAttr('required'); }">
+                                    <option value="" hidden="hidden">...</option>
+                                    <?php foreach(DEFECT_TYPES as $item): ?>
+                                    <option value="<?=$item ?>"><?= DEFECT_TYPE_NAMES[$item] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group d-none" id="other_defect_type_group">
+                                <label for="<?= OTHER ?>">Другой тип рекламации</label>
+                                <input type="text" name="<?= OTHER ?>" id="other_defect_type" class="form-control" />
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="quantity">Количество</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control int-only" id="<?= QUANTITY ?>" name="<?= QUANTITY ?>" placeholder="Количество" required="required" autocomplete="off" />
+                                        <div class="input-group-append">
+                                            <select id="<?= UNIT ?>" name="<?= UNIT ?>" required="required">
+                                                <option value="" hidden="hidden">...</option>
+                                                <option value="<?= UNIT_M ?>"><?= UNIT_NAMES[UNIT_M] ?></option>
+                                                <option value="<?= UNIT_KG ?>"><?= UNIT_NAMES[UNIT_KG] ?></option>
+                                                <option value="<?= UNIT_PC ?>"><?= UNIT_NAMES[UNIT_PC] ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="percent">Количество, %</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control int-only" id="<?= PERCENT ?>" name="<?= PERCENT ?>" placeholder="Количество, %" autocomplete="off" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-dark" id="add_defect_submit" name="add_defect_submit">Добавить</button>
+                            <button type="button" class="btn btn-light create_film_variation_dismiss" data-dismiss="modal">Отменить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="container-fluid">
             <?php
             if(!empty($error_message)) {
@@ -159,6 +222,8 @@ if($row = $fetcher->Fetch()) {
                         </tr>
                         <?php endwhile; ?>
                     </table>
+                    <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect">Добавить дефект</button>
+                    <hr />
                     <h2>Локализация</h2>
                     <form method="post">
                         <input type="hidden" name="id" value="<?=$id ?>" />
