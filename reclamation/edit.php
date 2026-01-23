@@ -254,7 +254,7 @@ if($row = $fetcher->Fetch()) {
                         </tr>
                         <?php endwhile; ?>
                     </table>
-                    <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect">Добавить дефект</button>
+                    <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect" style="width: 175px;">Добавить дефект</button>
                     <hr />
                     <h2>Локализация</h2>
                     <form method="post">

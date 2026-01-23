@@ -338,7 +338,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                             </tr>
                             <?php endwhile; ?>
                         </table>
-                        <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect">Добавить дефект</button>
+                        <button type="button" class="btn btn-dark" id="add_defect" data-toggle="modal" data-target="#add_defect" style="width: 175px;">Добавить дефект</button>
                         <hr />
                         <h2>Локализации</h2>
                         <div class="d-flex justify-content-lg-start">
@@ -367,7 +367,7 @@ $comment = htmlentities(filter_input(INPUT_POST, 'comment') ?? '');
                             <textarea class="form-control" rows="5" id="comment" name="comment" onkeyup="javascript: $('#comment_modal').val($(this).val());"><?= htmlentities($comment) ?></textarea>
                         </div>
                         <div class="form-group" style="padding-top: 24px;">
-                            <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit">Создать</button>
+                            <button type="submit" class="btn btn-dark" id="reclamation_create_submit" name="reclamation_create_submit" style="width: 175px;">Создать</button>
                         </div>
                     </form>
                 </div>
