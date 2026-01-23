@@ -19,7 +19,21 @@ const QUANTITY = "quantity";
 const UNIT = "unit";
 const PERCENT = "percent";
 
-// Редактирование рекламация
+// Добавление дефекта
+if(null !== filter_input(INPUT_POST, 'add_defect_submit')) {
+    $id = filter_input(INPUT_POST, 'id');
+    $defect = filter_input(INPUT_POST, DEFECT);
+    $other = addslashes(filter_input(INPUT_POST, OTHER));
+    $quantity = filter_input(INPUT_POST, QUANTITY);
+    $unit = filter_input(INPUT_POST, UNIT);
+    $percent = filter_input(INPUT_POST, PERCENT); if(empty($percent)) { $percent = "NULL"; }
+    
+    $sql = "insert into reclamation_defect (reclamation_id, defect_type, other_defect_type, quantity, unit, percent) values ($id, $defect, '$other', $quantity, '$unit', $percent)";
+    $executer = new Executer($sql);
+    $error_message = $executer->error;
+}
+
+// Редактирование рекламации
 if(null !== filter_input(INPUT_POST, 'edit-submit')) {
     $id = filter_input(INPUT_POST, 'id');
     
@@ -138,6 +152,7 @@ if($row = $fetcher->Fetch()) {
                 <div class="modal-content">
                     <form method="post">
                         <input type="hidden" name="scroll" />
+                        <input type="hidden" name="id" value="<?=$id ?>" />
                         <div class="modal-header">
                             <span class="font-weight-bold" style="font-size: x-large;">Добавить дефект</span>
                             <button type="button" class="close create_film_variation_dismiss" data-dismiss="modal"><i class="fas fa-times" style="color: #EC3A7A;"></i></button>
