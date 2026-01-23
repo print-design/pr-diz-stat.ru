@@ -33,6 +33,15 @@ if(null !== filter_input(INPUT_POST, 'add_defect_submit')) {
     $error_message = $executer->error;
 }
 
+// Удаление дефекта
+if(null !== filter_input(INPUT_POST, 'remove_defect')) {
+    $defect_id = filter_input(INPUT_POST, 'defect_id');
+    
+    $sql = "delete from reclamation_defect where id = $defect_id";
+    $executer = new Executer($sql);
+    $error_message = $executer->error;
+}
+
 // Редактирование рекламации
 if(null !== filter_input(INPUT_POST, 'edit-submit')) {
     $id = filter_input(INPUT_POST, 'id');
@@ -224,9 +233,10 @@ if($row = $fetcher->Fetch()) {
                             <th>Тип</th>
                             <th>м/шт</th>
                             <th>%</th>
+                            <th></th>
                         </tr>
                         <?php
-                        $sql = "select defect_type, other_defect_type, quantity, unit, percent from reclamation_defect where reclamation_id = $id";
+                        $sql = "select id, defect_type, other_defect_type, quantity, unit, percent from reclamation_defect where reclamation_id = $id";
                         $fetcher = new Fetcher($sql);
                         while($row = $fetcher->Fetch()):
                         ?>
@@ -234,6 +244,13 @@ if($row = $fetcher->Fetch()) {
                             <td><?= $row['defect_type'] == DEFECT_TYPE_OTHER ? $row['other_defect_type'] : (key_exists($row['defect_type'], DEFECT_TYPE_NAMES) ? DEFECT_TYPE_NAMES[$row['defect_type']] : $row['defect_type']) ?></td>
                             <td><?=$row['quantity'].' '. UNIT_NAMES[$row['unit']] ?></td>
                             <td><?= empty($row['percent']) ? '' : $row['percent'].'%' ?></td>
+                            <td>
+                                <form method="post">
+                                    <input type="hidden" name="scroll" />
+                                    <input type="hidden" name="defect_id" value="<?=$row['id'] ?>" />
+                                    <button type="submit" class="btn btn-sm btn-link" style="font-size: xx-large;" name="remove_defect" value="<?=$i ?>" onclick="return confirm('Действительно удалить?');">×</button>
+                                </form>
+                            </td>
                         </tr>
                         <?php endwhile; ?>
                     </table>
